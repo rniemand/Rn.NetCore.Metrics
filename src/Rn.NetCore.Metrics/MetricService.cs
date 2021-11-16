@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Rn.NetCore.Common.Abstractions;
 using Rn.NetCore.Common.Logging;
+using Rn.NetCore.Metrics.Builders;
 using Rn.NetCore.Metrics.Configuration;
 using Rn.NetCore.Metrics.Enums;
 using Rn.NetCore.Metrics.Interfaces;
