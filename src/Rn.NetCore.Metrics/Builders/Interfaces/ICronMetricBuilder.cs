@@ -1,5 +1,6 @@
 ﻿using System;
 using Rn.NetCore.Metrics.Interfaces;
+using Rn.NetCore.Metrics.Models;
 
 namespace Rn.NetCore.Metrics.Builders
 {

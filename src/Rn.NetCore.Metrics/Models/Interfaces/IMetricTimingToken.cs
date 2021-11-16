@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Rn.NetCore.Metrics.Interfaces
+namespace Rn.NetCore.Metrics.Models
 {
   public interface IMetricTimingToken : IDisposable
   {
