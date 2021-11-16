@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Rn.NetCore.Metrics.Enums;
-using Rn.NetCore.Metrics.Interfaces;
 using Rn.NetCore.Metrics.Models;
 
 namespace Rn.NetCore.Metrics.Builders

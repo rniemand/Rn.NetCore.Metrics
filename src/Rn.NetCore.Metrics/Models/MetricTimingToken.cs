@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using Rn.NetCore.Metrics.Enums;
-using Rn.NetCore.Metrics.Interfaces;
 
 namespace Rn.NetCore.Metrics.Models
 {

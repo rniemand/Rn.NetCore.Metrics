@@ -1,6 +1,7 @@
 ﻿using System;
+using Rn.NetCore.Metrics.Models;
 
-namespace Rn.NetCore.Metrics.Interfaces
+namespace Rn.NetCore.Metrics.Builders
 {
   public interface ICronMetricBuilder : IMetricBuilder
   {

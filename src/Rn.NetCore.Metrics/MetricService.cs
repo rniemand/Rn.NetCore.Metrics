@@ -5,13 +5,22 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Rn.NetCore.Common.Abstractions;
 using Rn.NetCore.Common.Logging;
+using Rn.NetCore.Metrics.Builders;
 using Rn.NetCore.Metrics.Configuration;
 using Rn.NetCore.Metrics.Enums;
-using Rn.NetCore.Metrics.Interfaces;
 using Rn.NetCore.Metrics.Models;
+using Rn.NetCore.Metrics.Outputs;
 
 namespace Rn.NetCore.Metrics
 {
+  public interface IMetricService
+  {
+    void SubmitBuilder(IMetricBuilder builder);
+    Task SubmitBuilderAsync(IMetricBuilder builder);
+    void SubmitMetric(CoreMetric coreMetric);
+    Task SubmitMetricAsync(CoreMetric coreMetric);
+  }
+
   public class MetricService : IMetricService
   {
     private readonly ILoggerAdapter<MetricService> _logger;

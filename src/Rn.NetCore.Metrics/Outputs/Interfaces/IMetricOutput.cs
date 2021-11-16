@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Rn.NetCore.Metrics.Models;
 
-namespace Rn.NetCore.Metrics.Interfaces
+namespace Rn.NetCore.Metrics.Outputs
 {
   public interface IMetricOutput
   {
