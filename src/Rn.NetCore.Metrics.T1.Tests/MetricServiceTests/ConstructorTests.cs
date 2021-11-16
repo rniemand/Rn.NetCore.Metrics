@@ -4,6 +4,7 @@ using NUnit.Framework;
 using Rn.NetCore.Common.Abstractions;
 using Rn.NetCore.Common.Logging;
 using Rn.NetCore.Common.Metrics.Interfaces;
+using Rn.NetCore.Metrics.T1.Tests.TestSupport;
 
 namespace Rn.NetCore.Metrics.T1.Tests.MetricServiceTests
 {
@@ -17,19 +18,19 @@ namespace Rn.NetCore.Metrics.T1.Tests.MetricServiceTests
       var serviceProvider = TestHelper.GetServiceProvider();
 
       // act
-      var _ = new Common.Metrics.MetricService(serviceProvider);
+      var _ = new MetricService(serviceProvider);
 
       // assert
-      serviceProvider.Received(1).GetService(typeof(ILoggerAdapter<Common.Metrics.MetricService>));
+      serviceProvider.Received(1).GetService(typeof(ILoggerAdapter<MetricService>));
       serviceProvider.Received(1).GetService(typeof(IDateTimeAbstraction));
-      serviceProvider.Received(1).GetService(typeof(Common.Metrics.IMetricServiceUtils));
+      serviceProvider.Received(1).GetService(typeof(IMetricServiceUtils));
     }
 
     [Test]
     public void MetricService_Given_Disabled_ShouldLog()
     {
       // arrange
-      var logger = Substitute.For<ILoggerAdapter<Common.Metrics.MetricService>>();
+      var logger = Substitute.For<ILoggerAdapter<MetricService>>();
       var metricServiceUtils = TestHelper.CreateMetricServiceUtils(
         new MetricsConfigBuilder().BuildWithDefaults(false)
       );
@@ -40,7 +41,7 @@ namespace Rn.NetCore.Metrics.T1.Tests.MetricServiceTests
       );
 
       // act
-      var _ = new Common.Metrics.MetricService(serviceProvider);
+      var _ = new MetricService(serviceProvider);
 
       // assert
       logger.Received(1).Info("Metric service disabled (via config)");
@@ -59,7 +60,7 @@ namespace Rn.NetCore.Metrics.T1.Tests.MetricServiceTests
       );
 
       // act
-      var _ = new Common.Metrics.MetricService(serviceProvider);
+      var _ = new MetricService(serviceProvider);
 
       // assert
       serviceProvider.Received(1).GetService(typeof(IEnumerable<IMetricOutput>));
@@ -69,7 +70,7 @@ namespace Rn.NetCore.Metrics.T1.Tests.MetricServiceTests
     public void MetricService_Given_NoEnabledOutputs_ShouldLog()
     {
       // arrange
-      var logger = Substitute.For<ILoggerAdapter<Common.Metrics.MetricService>>();
+      var logger = Substitute.For<ILoggerAdapter<MetricService>>();
       var metricServiceUtils = TestHelper.CreateMetricServiceUtils(
         new MetricsConfigBuilder().BuildWithDefaults(true)
       );
@@ -81,7 +82,7 @@ namespace Rn.NetCore.Metrics.T1.Tests.MetricServiceTests
       );
 
       // act
-      var _ = new Common.Metrics.MetricService(serviceProvider);
+      var _ = new MetricService(serviceProvider);
 
       // assert
       logger.Received(1).Warning("No enabled outputs, disabling metric service");
@@ -101,7 +102,7 @@ namespace Rn.NetCore.Metrics.T1.Tests.MetricServiceTests
 
       // act
       Assert.IsTrue(metricsConfig.Enabled);
-      var _ = new Common.Metrics.MetricService(serviceProvider);
+      var _ = new MetricService(serviceProvider);
 
       // assert
       Assert.IsFalse(metricsConfig.Enabled);
@@ -111,7 +112,7 @@ namespace Rn.NetCore.Metrics.T1.Tests.MetricServiceTests
     public void MetricService_Given_EnabledOutputs_ShouldLog()
     {
       // arrange
-      var logger = Substitute.For<ILoggerAdapter<Common.Metrics.MetricService>>();
+      var logger = Substitute.For<ILoggerAdapter<MetricService>>();
       var metricServiceUtils = TestHelper.CreateMetricServiceUtils(
         new MetricsConfigBuilder()
           .WithDefaults()
@@ -126,7 +127,7 @@ namespace Rn.NetCore.Metrics.T1.Tests.MetricServiceTests
       );
 
       // act
-      var _ = new Common.Metrics.MetricService(serviceProvider);
+      var _ = new MetricService(serviceProvider);
 
       // assert
       logger.Received(1).Info(

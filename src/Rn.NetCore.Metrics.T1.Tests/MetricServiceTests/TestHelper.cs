@@ -3,17 +3,19 @@ using System.Collections.Generic;
 using NSubstitute;
 using Rn.NetCore.Common.Abstractions;
 using Rn.NetCore.Common.Logging;
-using Rn.NetCore.Common.Metrics.Configuration;
-using Rn.NetCore.Common.Metrics.Interfaces;
+using Rn.NetCore.Metrics.Configuration;
+using Rn.NetCore.Metrics.Outputs;
+using Rn.NetCore.Metrics.T1.Tests.TestSupport;
+using Rn.NetCore.TestingCore.Builders;
 
 namespace Rn.NetCore.Metrics.T1.Tests.MetricServiceTests
 {
   public static class TestHelper
   {
     public static IServiceProvider GetServiceProvider(
-      ILoggerAdapter<Common.Metrics.MetricService> logger = null,
+      ILoggerAdapter<MetricService> logger = null,
       IDateTimeAbstraction dateTime = null,
-      Common.Metrics.IMetricServiceUtils metricServiceUtils = null,
+      IMetricServiceUtils metricServiceUtils = null,
       IEnumerable<IMetricOutput> outputs = null,
       MetricsConfig config = null)
     {
@@ -25,17 +27,17 @@ namespace Rn.NetCore.Metrics.T1.Tests.MetricServiceTests
         .Build();
     }
 
-    public static Common.Metrics.IMetricServiceUtils GetMetricServiceUtils(
-      Common.Metrics.IMetricServiceUtils utils = null,
+    public static IMetricServiceUtils GetMetricServiceUtils(
+      IMetricServiceUtils utils = null,
       MetricsConfig metricsConfig = null)
     {
       return utils ?? CreateMetricServiceUtils(metricsConfig);
     }
 
-    public static Common.Metrics.IMetricServiceUtils CreateMetricServiceUtils(
+    public static IMetricServiceUtils CreateMetricServiceUtils(
       MetricsConfig metricsConfig = null)
     {
-      var utils = Substitute.For<Common.Metrics.IMetricServiceUtils>();
+      var utils = Substitute.For<IMetricServiceUtils>();
       metricsConfig ??= new MetricsConfigBuilder().BuildWithDefaults();
 
       utils.GetConfiguration().Returns(metricsConfig);
