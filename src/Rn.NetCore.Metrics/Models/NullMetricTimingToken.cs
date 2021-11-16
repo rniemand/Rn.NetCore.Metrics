@@ -1,6 +1,4 @@
-﻿using Rn.NetCore.Metrics.Interfaces;
-
-namespace Rn.NetCore.Metrics.Models
+﻿namespace Rn.NetCore.Metrics.Models
 {
   public class NullMetricTimingToken : IMetricTimingToken
   {
