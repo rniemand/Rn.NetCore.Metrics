@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.31903.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rn.NetCore.Metrics", "Rn.NetCore.Metrics\Rn.NetCore.Metrics.csproj", "{4372CF31-8FEA-4773-9DAC-C5FC6FA26CE5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rn.NetCore.Metrics", "Rn.NetCore.Metrics\Rn.NetCore.Metrics.csproj", "{4372CF31-8FEA-4773-9DAC-C5FC6FA26CE5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{7EF9623C-7D1B-444D-AEA8-8B666FA49BE4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rn.NetCore.Metrics.T1.Tests", "Rn.NetCore.Metrics.T1.Tests\Rn.NetCore.Metrics.T1.Tests.csproj", "{B909536F-4F7B-44ED-926F-B23514180B05}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +19,17 @@ Global
 		{4372CF31-8FEA-4773-9DAC-C5FC6FA26CE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4372CF31-8FEA-4773-9DAC-C5FC6FA26CE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4372CF31-8FEA-4773-9DAC-C5FC6FA26CE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B909536F-4F7B-44ED-926F-B23514180B05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B909536F-4F7B-44ED-926F-B23514180B05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B909536F-4F7B-44ED-926F-B23514180B05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B909536F-4F7B-44ED-926F-B23514180B05}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4372CF31-8FEA-4773-9DAC-C5FC6FA26CE5} = {7EF9623C-7D1B-444D-AEA8-8B666FA49BE4}
+		{B909536F-4F7B-44ED-926F-B23514180B05} = {7EF9623C-7D1B-444D-AEA8-8B666FA49BE4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D33B7723-BDD5-4DF0-8D25-C16659970F48}
