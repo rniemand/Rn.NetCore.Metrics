@@ -6,12 +6,12 @@ namespace Rn.NetCore.Metrics.T1.Tests.MetricServiceUtilsTests
 {
   public static class TestHelper
   {
-    public static Common.Metrics.MetricServiceUtils GetMetricServiceUtils(
-      ILoggerAdapter<Common.Metrics.MetricServiceUtils> logger = null,
+    public static MetricServiceUtils GetMetricServiceUtils(
+      ILoggerAdapter<MetricServiceUtils> logger = null,
       IConfiguration configuration = null)
     {
-      return new Common.Metrics.MetricServiceUtils(
-        logger ?? Substitute.For<ILoggerAdapter<Common.Metrics.MetricServiceUtils>>(),
+      return new MetricServiceUtils(
+        logger ?? Substitute.For<ILoggerAdapter<MetricServiceUtils>>(),
         configuration ?? new ConfigurationBuilder().Build()
       );
     }

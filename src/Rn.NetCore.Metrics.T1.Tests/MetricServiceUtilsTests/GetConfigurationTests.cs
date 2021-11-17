@@ -2,7 +2,7 @@
 using NSubstitute;
 using NUnit.Framework;
 using Rn.NetCore.Common.Logging;
-using Rn.NetCore.Common.Metrics.Configuration;
+using Rn.NetCore.Metrics.Configuration;
 
 namespace Rn.NetCore.Metrics.T1.Tests.MetricServiceUtilsTests
 {
@@ -30,7 +30,7 @@ namespace Rn.NetCore.Metrics.T1.Tests.MetricServiceUtilsTests
     public void GetConfiguration_GivenSectionNotFound_ShouldLog()
     {
       // arrange
-      var logger = Substitute.For<ILoggerAdapter<Common.Metrics.MetricServiceUtils>>();
+      var logger = Substitute.For<ILoggerAdapter<MetricServiceUtils>>();
       var configuration = new ConfigurationBuilder().Build();
 
       var metricServiceUtils = TestHelper.GetMetricServiceUtils(
