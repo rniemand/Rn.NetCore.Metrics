@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
-using Rn.NetCore.Common.Metrics.Exceptions;
+using Rn.NetCore.Metrics.Exceptions;
+using Rn.NetCore.Metrics.T1.Tests.TestSupport;
 
 namespace Rn.NetCore.Metrics.T1.Tests.MetricServiceUtilsTests
 {
@@ -17,7 +18,7 @@ namespace Rn.NetCore.Metrics.T1.Tests.MetricServiceUtilsTests
         .Build();
 
       // assert
-      Assert.DoesNotThrow(() => Common.Metrics.MetricServiceUtils.ProcessConfiguration(config));
+      Assert.DoesNotThrow(() => MetricServiceUtils.ProcessConfiguration(config));
     }
 
     [Test]
@@ -32,7 +33,7 @@ namespace Rn.NetCore.Metrics.T1.Tests.MetricServiceUtilsTests
 
       // act
       var ex = Assert.Throws<MetricConfigException>(() =>
-        Common.Metrics.MetricServiceUtils.ProcessConfiguration(config)
+        MetricServiceUtils.ProcessConfiguration(config)
       );
 
       // assert
@@ -53,7 +54,7 @@ namespace Rn.NetCore.Metrics.T1.Tests.MetricServiceUtilsTests
 
       // act
       Assert.IsNull(config.Environment);
-      Common.Metrics.MetricServiceUtils.ProcessConfiguration(config);
+      MetricServiceUtils.ProcessConfiguration(config);
 
       // assert
       Assert.AreEqual("development", config.Environment);
@@ -71,7 +72,7 @@ namespace Rn.NetCore.Metrics.T1.Tests.MetricServiceUtilsTests
 
       // act
       Assert.IsNull(config.Template);
-      Common.Metrics.MetricServiceUtils.ProcessConfiguration(config);
+      MetricServiceUtils.ProcessConfiguration(config);
 
       // assert
       Assert.AreEqual("{app}/{measurement}", config.Template);
@@ -88,7 +89,7 @@ namespace Rn.NetCore.Metrics.T1.Tests.MetricServiceUtilsTests
         .Build();
 
       // act
-      Common.Metrics.MetricServiceUtils.ProcessConfiguration(config);
+      MetricServiceUtils.ProcessConfiguration(config);
 
       // assert
       Assert.AreEqual("hello", config.Application);
@@ -105,7 +106,7 @@ namespace Rn.NetCore.Metrics.T1.Tests.MetricServiceUtilsTests
         .Build();
 
       // act
-      Common.Metrics.MetricServiceUtils.ProcessConfiguration(config);
+      MetricServiceUtils.ProcessConfiguration(config);
 
       // assert
       Assert.AreEqual("production", config.Environment);

@@ -1,7 +1,8 @@
 ﻿using NSubstitute;
 using NUnit.Framework;
-using Rn.NetCore.Common.Metrics.Interfaces;
-using Rn.NetCore.Common.Metrics.Models;
+using Rn.NetCore.Metrics.Models;
+using Rn.NetCore.Metrics.Outputs;
+using Rn.NetCore.Metrics.T1.Tests.TestSupport;
 
 namespace Rn.NetCore.Metrics.T1.Tests.MetricServiceTests
 {
@@ -25,7 +26,7 @@ namespace Rn.NetCore.Metrics.T1.Tests.MetricServiceTests
         outputs: metricOutputs
       );
 
-      var metricService = new Common.Metrics.MetricService(serviceProvider);
+      var metricService = new MetricService(serviceProvider);
 
       // act
       metricService.SubmitMetric(metric);
@@ -51,7 +52,7 @@ namespace Rn.NetCore.Metrics.T1.Tests.MetricServiceTests
         outputs: metricOutputs
       );
 
-      var metricService = new Common.Metrics.MetricService(serviceProvider);
+      var metricService = new MetricService(serviceProvider);
 
       // act
       metricService.SubmitMetric(metric);
@@ -77,7 +78,7 @@ namespace Rn.NetCore.Metrics.T1.Tests.MetricServiceTests
         outputs: metricOutputs
       );
 
-      var metricService = new Common.Metrics.MetricService(serviceProvider);
+      var metricService = new MetricService(serviceProvider);
 
       // act
       metricService.SubmitMetric(metric);
@@ -110,7 +111,7 @@ namespace Rn.NetCore.Metrics.T1.Tests.MetricServiceTests
         outputs: metricOutputs
       );
 
-      var metricService = new Common.Metrics.MetricService(serviceProvider);
+      var metricService = new MetricService(serviceProvider);
 
       // act
       metricService.SubmitMetric(metric);
