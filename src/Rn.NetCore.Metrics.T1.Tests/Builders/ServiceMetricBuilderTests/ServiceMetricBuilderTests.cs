@@ -1,8 +1,8 @@
 ﻿using System;
 using NUnit.Framework;
-using Rn.NetCore.Common.Metrics.Builders;
-using Rn.NetCore.Common.Metrics.Enums;
-using Rn.NetCore.Common.Metrics.Interfaces;
+using Rn.NetCore.Metrics.Builders;
+using Rn.NetCore.Metrics.Enums;
+using Rn.NetCore.Metrics.Models;
 
 namespace Rn.NetCore.Metrics.T1.Tests.Builders.ServiceMetricBuilderTests
 {

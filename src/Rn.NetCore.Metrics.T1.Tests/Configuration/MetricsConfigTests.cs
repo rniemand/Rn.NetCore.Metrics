@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
-using Rn.NetCore.Common.Metrics.Configuration;
+using Rn.NetCore.Metrics.Configuration;
 
 namespace Rn.NetCore.Metrics.T1.Tests.Configuration
 {

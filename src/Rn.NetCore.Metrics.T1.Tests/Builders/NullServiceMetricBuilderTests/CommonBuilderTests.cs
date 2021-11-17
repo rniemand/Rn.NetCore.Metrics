@@ -1,6 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
-using Rn.NetCore.Common.Metrics.Builders;
+using Rn.NetCore.Metrics.Builders;
 
 namespace Rn.NetCore.Metrics.T1.Tests.Builders.NullServiceMetricBuilderTests
 {
