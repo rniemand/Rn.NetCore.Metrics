@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using Rn.NetCore.Common.Metrics.Outputs;
+using Rn.NetCore.Metrics.Outputs;
 
 namespace Rn.NetCore.Metrics.T1.Tests.Outputs
 {

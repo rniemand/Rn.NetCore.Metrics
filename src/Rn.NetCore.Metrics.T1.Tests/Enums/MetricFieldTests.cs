@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using Rn.NetCore.Common.Metrics.Enums;
+using Rn.NetCore.Metrics.Enums;
 
 namespace Rn.NetCore.Metrics.T1.Tests.Enums
 {
