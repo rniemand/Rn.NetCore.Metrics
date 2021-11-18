@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
-using Rn.NetCore.Common.Configuration;
 using Rn.NetCore.Common.Logging;
 
 namespace DevConsole
@@ -34,7 +33,6 @@ namespace DevConsole
       services
         // Configuration
         .AddSingleton(config)
-        .AddSingleton<ICommonConfigProvider, CommonConfigProvider>()
 
         // Logging
         .AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>))
