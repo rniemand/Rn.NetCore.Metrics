@@ -4,7 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Description>Common metrics components for my projetcts</Description>
-    <Version>5.0.0.100</Version>
+    <Version>5.0.0.101</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors>Richard Niemand</Authors>
     <NeutralLanguage>en</NeutralLanguage>
