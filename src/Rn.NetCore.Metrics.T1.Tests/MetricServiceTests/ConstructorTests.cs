@@ -44,7 +44,7 @@ namespace Rn.NetCore.Metrics.T1.Tests.MetricServiceTests
       var _ = new MetricService(serviceProvider);
 
       // assert
-      logger.Received(1).Info("Metric service disabled (via config)");
+      logger.Received(1).LogInformation("Metric service disabled (via config)");
     }
 
     [Test]
@@ -85,7 +85,7 @@ namespace Rn.NetCore.Metrics.T1.Tests.MetricServiceTests
       var _ = new MetricService(serviceProvider);
 
       // assert
-      logger.Received(1).Warning("No enabled outputs, disabling metric service");
+      logger.Received(1).LogWarning("No enabled outputs, disabling metric service");
     }
 
     [Test]
@@ -130,7 +130,7 @@ namespace Rn.NetCore.Metrics.T1.Tests.MetricServiceTests
       var _ = new MetricService(serviceProvider);
 
       // assert
-      logger.Received(1).Info(
+      logger.Received(1).LogInformation(
         "Metric service running with {count} output(s)",
         1
       );

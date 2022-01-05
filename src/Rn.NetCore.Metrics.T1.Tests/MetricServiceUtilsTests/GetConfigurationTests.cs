@@ -42,7 +42,7 @@ namespace Rn.NetCore.Metrics.T1.Tests.MetricServiceUtilsTests
       metricServiceUtils.GetConfiguration();
 
       // assert
-      logger.Received(1).Warning(
+      logger.Received(1).LogWarning(
         "Metrics disabled (config '{key}' missing)",
         MetricsConfig.ConfigKey
       );

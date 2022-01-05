@@ -37,7 +37,7 @@ namespace Rn.NetCore.Metrics
       }
       else
       {
-        _logger.Warning("Metrics disabled (config '{key}' missing)",
+        _logger.LogWarning("Metrics disabled (config '{key}' missing)",
           MetricsConfig.ConfigKey
         );
       }

@@ -6,7 +6,6 @@ using Rn.NetCore.Common.Logging;
 using Rn.NetCore.Metrics.Configuration;
 using Rn.NetCore.Metrics.Outputs;
 using Rn.NetCore.Metrics.T1.Tests.TestSupport;
-using Rn.NetCore.TestingCore.Builders;
 
 namespace Rn.NetCore.Metrics.T1.Tests.MetricServiceTests
 {
@@ -19,12 +18,11 @@ namespace Rn.NetCore.Metrics.T1.Tests.MetricServiceTests
       IEnumerable<IMetricOutput> outputs = null,
       MetricsConfig config = null)
     {
-      return new ServiceProviderBuilder()
+      return Substitute.For<IServiceProvider>()
         .WithLogger(logger)
         .WithService(dateTime ?? Substitute.For<IDateTimeAbstraction>())
         .WithService(GetMetricServiceUtils(metricServiceUtils, config))
-        .WithService(outputs ?? new List<IMetricOutput>())
-        .Build();
+        .WithService(outputs ?? new List<IMetricOutput>());
     }
 
     public static IMetricServiceUtils GetMetricServiceUtils(

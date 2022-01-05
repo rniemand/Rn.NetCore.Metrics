@@ -38,7 +38,7 @@ namespace Rn.NetCore.Metrics
 
       if (!_config.Enabled)
       {
-        _logger.Info("Metric service disabled (via config)");
+        _logger.LogInformation("Metric service disabled (via config)");
         return;
       }
 
@@ -100,13 +100,13 @@ namespace Rn.NetCore.Metrics
       // No enabled outputs
       if (_outputs.Count == 0)
       {
-        _logger.Warning("No enabled outputs, disabling metric service");
+        _logger.LogWarning("No enabled outputs, disabling metric service");
         _config.Enabled = false;
         return;
       }
 
       // We are good to go
-      _logger.Info("Metric service running with {count} output(s)",
+      _logger.LogInformation("Metric service running with {count} output(s)",
         _outputs.Count
       );
     }
