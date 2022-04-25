@@ -8,6 +8,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors>Richard Niemand</Authors>
     <NeutralLanguage>en</NeutralLanguage>
+	  <ProjectGuid>2EA3EBFA-2DF0-4B2D-B8DB-FDC2186E95E6</ProjectGuid>
   </PropertyGroup>
 
   <ItemGroup>
