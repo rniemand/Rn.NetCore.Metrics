@@ -4,14 +4,20 @@
     <TargetFramework>net6.0</TargetFramework>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Description>Common metrics components for my projetcts</Description>
-    <Version>6.0.0.102</Version>
+    <Version>6.0.0.103</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors>Richard Niemand</Authors>
     <NeutralLanguage>en</NeutralLanguage>
+	  <ProjectGuid>2EA3EBFA-2DF0-4B2D-B8DB-FDC2186E95E6</ProjectGuid>
+	  <CodeAnalysisRuleSet>..\.sonarlint\rn-netcore-metricscsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Rn.NetCore.Common" Version="6.0.0.107" />
+    <Content Include="..\.sonarlint\rn-netcore-metrics\CSharp\SonarLint.xml" Link="SonarLint.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Rn.NetCore.Common" Version="6.0.0.109" />
   </ItemGroup>
 
 </Project>

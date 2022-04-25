@@ -1,30 +1,29 @@
 ﻿using System.Diagnostics;
 using Rn.NetCore.Metrics.Enums;
 
-namespace Rn.NetCore.Metrics.Models
+namespace Rn.NetCore.Metrics.Models;
+
+public class MetricTimingToken : IMetricTimingToken
 {
-  public class MetricTimingToken : IMetricTimingToken
+  public string FieldName { get; private set; }
+
+  private readonly CoreMetric _metric;
+  private readonly Stopwatch _stopwatch;
+
+  public MetricTimingToken(CoreMetric metric, string fieldName)
   {
-    public string FieldName { get; private set; }
+    _metric = metric;
+    FieldName = fieldName;
 
-    private readonly CoreMetric _metric;
-    private readonly Stopwatch _stopwatch;
+    // If there was no field name provided, fall back to "value"
+    if (string.IsNullOrWhiteSpace(FieldName))
+      FieldName = MetricField.Value;
 
-    public MetricTimingToken(CoreMetric metric, string fieldName)
-    {
-      _metric = metric;
-      FieldName = fieldName;
+    _stopwatch = Stopwatch.StartNew();
+  }
 
-      // If there was no field name provided, fall back to "value"
-      if (string.IsNullOrWhiteSpace(FieldName))
-        FieldName = MetricField.Value;
-
-      _stopwatch = Stopwatch.StartNew();
-    }
-
-    public void Dispose()
-    {
-      _metric.Fields[FieldName] = _stopwatch.ElapsedMilliseconds;
-    }
+  public void Dispose()
+  {
+    _metric.Fields[FieldName] = _stopwatch.ElapsedMilliseconds;
   }
 }

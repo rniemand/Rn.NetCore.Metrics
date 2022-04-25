@@ -4,68 +4,67 @@ using Rn.NetCore.Common.Logging;
 using Rn.NetCore.Metrics.Configuration;
 using Rn.NetCore.Metrics.Exceptions;
 
-namespace Rn.NetCore.Metrics
+namespace Rn.NetCore.Metrics;
+
+public interface IMetricServiceUtils
 {
-  public interface IMetricServiceUtils
+  MetricsConfig GetConfiguration();
+}
+
+public class MetricServiceUtils : IMetricServiceUtils
+{
+  private readonly ILoggerAdapter<MetricServiceUtils> _logger;
+  private readonly IConfiguration _configuration;
+
+  public MetricServiceUtils(
+    ILoggerAdapter<MetricServiceUtils> logger,
+    IConfiguration configuration)
   {
-    MetricsConfig GetConfiguration();
+    _logger = logger;
+    _configuration = configuration;
   }
 
-  public class MetricServiceUtils : IMetricServiceUtils
+
+  // Interface methods
+  public MetricsConfig GetConfiguration()
   {
-    private readonly ILoggerAdapter<MetricServiceUtils> _logger;
-    private readonly IConfiguration _configuration;
+    var boundConfig = new MetricsConfig();
+    var configSection = _configuration.GetSection(MetricsConfig.ConfigKey);
 
-    public MetricServiceUtils(
-      ILoggerAdapter<MetricServiceUtils> logger,
-      IConfiguration configuration)
+    if (configSection.Exists())
     {
-      _logger = logger;
-      _configuration = configuration;
+      configSection.Bind(boundConfig);
+    }
+    else
+    {
+      _logger.LogWarning("Metrics disabled (config '{key}' missing)",
+        MetricsConfig.ConfigKey
+      );
     }
 
-
-    // Interface methods
-    public MetricsConfig GetConfiguration()
-    {
-      var boundConfig = new MetricsConfig();
-      var configSection = _configuration.GetSection(MetricsConfig.ConfigKey);
-
-      if (configSection.Exists())
-      {
-        configSection.Bind(boundConfig);
-      }
-      else
-      {
-        _logger.LogWarning("Metrics disabled (config '{key}' missing)",
-          MetricsConfig.ConfigKey
-        );
-      }
-
-      ProcessConfiguration(boundConfig);
-      return boundConfig;
-    }
+    ProcessConfiguration(boundConfig);
+    return boundConfig;
+  }
 
 
-    // Internal methods
-    public static void ProcessConfiguration(MetricsConfig config)
-    {
-      if (!config.Enabled)
-        return;
+  // Internal methods
+  public static void ProcessConfiguration(MetricsConfig config)
+  {
+    if (!config.Enabled)
+      return;
 
-      // Ensure that all required values are present
-      if (string.IsNullOrWhiteSpace(config.Application))
-        throw new MetricConfigException("ApplicationName is required");
+    // Ensure that all required values are present
+    if (string.IsNullOrWhiteSpace(config.Application))
+      throw new MetricConfigException("ApplicationName is required");
 
-      if (string.IsNullOrWhiteSpace(config.Environment))
-        config.Environment = "development";
+    if (string.IsNullOrWhiteSpace(config.Environment))
+      config.Environment = "development";
 
-      if (string.IsNullOrWhiteSpace(config.Template))
-        config.Template = "{app}/{measurement}";
+    if (string.IsNullOrWhiteSpace(config.Template))
+      config.Template = "{app}/{measurement}";
 
-      // Ensure that all casing is correct for metric logging
-      config.Application = config.Application.LowerTrim();
-      config.Environment = config.Environment.LowerTrim();
-    }
+    // Ensure that all casing is correct for metric logging
+    config.Application = config.Application.LowerTrim();
+    config.Environment = config.Environment.LowerTrim();
   }
 }

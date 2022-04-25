@@ -6,134 +6,133 @@ using Rn.NetCore.Common.Logging;
 using Rn.NetCore.Metrics.Outputs;
 using Rn.NetCore.Metrics.T1.Tests.TestSupport;
 
-namespace Rn.NetCore.Metrics.T1.Tests.MetricServiceTests
+namespace Rn.NetCore.Metrics.T1.Tests.MetricServiceTests;
+
+[TestFixture]
+public class ConstructorTests
 {
-  [TestFixture]
-  public class ConstructorTests
+  [Test]
+  public void MetricService_Given_Constructed_ShouldResolve_RequiredServices()
   {
-    [Test]
-    public void MetricService_Given_Constructed_ShouldResolve_RequiredServices()
-    {
-      // arrange
-      var serviceProvider = TestHelper.GetServiceProvider();
+    // arrange
+    var serviceProvider = TestHelper.GetServiceProvider();
 
-      // act
-      var _ = new MetricService(serviceProvider);
+    // act
+    var _ = new MetricService(serviceProvider);
 
-      // assert
-      serviceProvider.Received(1).GetService(typeof(ILoggerAdapter<MetricService>));
-      serviceProvider.Received(1).GetService(typeof(IDateTimeAbstraction));
-      serviceProvider.Received(1).GetService(typeof(IMetricServiceUtils));
-    }
+    // assert
+    serviceProvider.Received(1).GetService(typeof(ILoggerAdapter<MetricService>));
+    serviceProvider.Received(1).GetService(typeof(IDateTimeAbstraction));
+    serviceProvider.Received(1).GetService(typeof(IMetricServiceUtils));
+  }
 
-    [Test]
-    public void MetricService_Given_Disabled_ShouldLog()
-    {
-      // arrange
-      var logger = Substitute.For<ILoggerAdapter<MetricService>>();
-      var metricServiceUtils = TestHelper.CreateMetricServiceUtils(
-        new MetricsConfigBuilder().BuildWithDefaults(false)
-      );
+  [Test]
+  public void MetricService_Given_Disabled_ShouldLog()
+  {
+    // arrange
+    var logger = Substitute.For<ILoggerAdapter<MetricService>>();
+    var metricServiceUtils = TestHelper.CreateMetricServiceUtils(
+      new MetricsConfigBuilder().BuildWithDefaults(false)
+    );
 
-      var serviceProvider = TestHelper.GetServiceProvider(
-        metricServiceUtils: metricServiceUtils,
-        logger: logger
-      );
+    var serviceProvider = TestHelper.GetServiceProvider(
+      metricServiceUtils: metricServiceUtils,
+      logger: logger
+    );
 
-      // act
-      var _ = new MetricService(serviceProvider);
+    // act
+    var _ = new MetricService(serviceProvider);
 
-      // assert
-      logger.Received(1).LogInformation("Metric service disabled (via config)");
-    }
+    // assert
+    logger.Received(1).LogInformation("Metric service disabled (via config)");
+  }
 
-    [Test]
-    public void MetricService_Given_Enabled_ShouldLoad_MetricOutputs()
-    {
-      // arrange
-      var metricServiceUtils = TestHelper.CreateMetricServiceUtils(
-        new MetricsConfigBuilder().BuildWithDefaults(true)
-      );
+  [Test]
+  public void MetricService_Given_Enabled_ShouldLoad_MetricOutputs()
+  {
+    // arrange
+    var metricServiceUtils = TestHelper.CreateMetricServiceUtils(
+      new MetricsConfigBuilder().BuildWithDefaults(true)
+    );
 
-      var serviceProvider = TestHelper.GetServiceProvider(
-        metricServiceUtils: metricServiceUtils
-      );
+    var serviceProvider = TestHelper.GetServiceProvider(
+      metricServiceUtils: metricServiceUtils
+    );
 
-      // act
-      var _ = new MetricService(serviceProvider);
+    // act
+    var _ = new MetricService(serviceProvider);
 
-      // assert
-      serviceProvider.Received(1).GetService(typeof(IEnumerable<IMetricOutput>));
-    }
+    // assert
+    serviceProvider.Received(1).GetService(typeof(IEnumerable<IMetricOutput>));
+  }
 
-    [Test]
-    public void MetricService_Given_NoEnabledOutputs_ShouldLog()
-    {
-      // arrange
-      var logger = Substitute.For<ILoggerAdapter<MetricService>>();
-      var metricServiceUtils = TestHelper.CreateMetricServiceUtils(
-        new MetricsConfigBuilder().BuildWithDefaults(true)
-      );
+  [Test]
+  public void MetricService_Given_NoEnabledOutputs_ShouldLog()
+  {
+    // arrange
+    var logger = Substitute.For<ILoggerAdapter<MetricService>>();
+    var metricServiceUtils = TestHelper.CreateMetricServiceUtils(
+      new MetricsConfigBuilder().BuildWithDefaults(true)
+    );
 
-      var serviceProvider = TestHelper.GetServiceProvider(
-        metricServiceUtils: metricServiceUtils,
-        logger: logger,
-        outputs: TestHelper.GetDisabledMetricOutputs()
-      );
+    var serviceProvider = TestHelper.GetServiceProvider(
+      metricServiceUtils: metricServiceUtils,
+      logger: logger,
+      outputs: TestHelper.GetDisabledMetricOutputs()
+    );
 
-      // act
-      var _ = new MetricService(serviceProvider);
+    // act
+    var _ = new MetricService(serviceProvider);
 
-      // assert
-      logger.Received(1).LogWarning("No enabled outputs, disabling metric service");
-    }
+    // assert
+    logger.Received(1).LogWarning("No enabled outputs, disabling metric service");
+  }
 
-    [Test]
-    public void MetricService_Given_NoEnabledOutputs_ShouldSet_EnabledFalse()
-    {
-      // arrange
-      var metricsConfig = new MetricsConfigBuilder().BuildWithDefaults(true);
-      var metricServiceUtils = TestHelper.CreateMetricServiceUtils(metricsConfig);
+  [Test]
+  public void MetricService_Given_NoEnabledOutputs_ShouldSet_EnabledFalse()
+  {
+    // arrange
+    var metricsConfig = new MetricsConfigBuilder().BuildWithDefaults(true);
+    var metricServiceUtils = TestHelper.CreateMetricServiceUtils(metricsConfig);
 
-      var serviceProvider = TestHelper.GetServiceProvider(
-        metricServiceUtils: metricServiceUtils,
-        outputs: TestHelper.GetDisabledMetricOutputs()
-      );
+    var serviceProvider = TestHelper.GetServiceProvider(
+      metricServiceUtils: metricServiceUtils,
+      outputs: TestHelper.GetDisabledMetricOutputs()
+    );
 
-      // act
-      Assert.IsTrue(metricsConfig.Enabled);
-      var _ = new MetricService(serviceProvider);
+    // act
+    Assert.IsTrue(metricsConfig.Enabled);
+    var _ = new MetricService(serviceProvider);
 
-      // assert
-      Assert.IsFalse(metricsConfig.Enabled);
-    }
+    // assert
+    Assert.IsFalse(metricsConfig.Enabled);
+  }
 
-    [Test]
-    public void MetricService_Given_EnabledOutputs_ShouldLog()
-    {
-      // arrange
-      var logger = Substitute.For<ILoggerAdapter<MetricService>>();
-      var metricServiceUtils = TestHelper.CreateMetricServiceUtils(
-        new MetricsConfigBuilder()
-          .WithDefaults()
-          .WithEnabled(true)
-          .Build()
-      );
+  [Test]
+  public void MetricService_Given_EnabledOutputs_ShouldLog()
+  {
+    // arrange
+    var logger = Substitute.For<ILoggerAdapter<MetricService>>();
+    var metricServiceUtils = TestHelper.CreateMetricServiceUtils(
+      new MetricsConfigBuilder()
+        .WithDefaults()
+        .WithEnabled(true)
+        .Build()
+    );
 
-      var serviceProvider = TestHelper.GetServiceProvider(
-        metricServiceUtils: metricServiceUtils,
-        logger: logger,
-        outputs: TestHelper.GetEnabledMetricOutputs()
-      );
+    var serviceProvider = TestHelper.GetServiceProvider(
+      metricServiceUtils: metricServiceUtils,
+      logger: logger,
+      outputs: TestHelper.GetEnabledMetricOutputs()
+    );
 
-      // act
-      var _ = new MetricService(serviceProvider);
+    // act
+    var _ = new MetricService(serviceProvider);
 
-      // assert
-      logger.Received(1).LogInformation(
-        "Metric service running with {count} output(s)",
-        1
-      );
-    }
+    // assert
+    logger.Received(1).LogInformation(
+      "Metric service running with {count} output(s)",
+      1
+    );
   }
 }

@@ -6,46 +6,45 @@ using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using Rn.NetCore.Common.Logging;
 
-namespace DevConsole
+namespace DevConsole;
+
+internal class Program
 {
-  internal class Program
+  private static IServiceProvider _services;
+  private static ILoggerAdapter<Program> _logger;
+
+  static void Main(string[] args)
   {
-    private static IServiceProvider _services;
-    private static ILoggerAdapter<Program> _logger;
+    ConfigureDI();
 
-    static void Main(string[] args)
-    {
-      ConfigureDI();
+    _logger.LogInformation("Hello World");
+    Console.WriteLine("Hello World!");
+  }
 
-      _logger.LogInformation("Hello World");
-      Console.WriteLine("Hello World!");
-    }
+  private static void ConfigureDI()
+  {
+    var services = new ServiceCollection();
 
-    private static void ConfigureDI()
-    {
-      var services = new ServiceCollection();
+    var config = new ConfigurationBuilder()
+      .SetBasePath(Directory.GetCurrentDirectory())
+      .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+      .Build();
 
-      var config = new ConfigurationBuilder()
-        .SetBasePath(Directory.GetCurrentDirectory())
-        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-        .Build();
+    services
+      // Configuration
+      .AddSingleton(config)
 
-      services
-        // Configuration
-        .AddSingleton(config)
+      // Logging
+      .AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>))
+      .AddLogging(loggingBuilder =>
+      {
+        // configure Logging with NLog
+        loggingBuilder.ClearProviders();
+        loggingBuilder.SetMinimumLevel(LogLevel.Trace);
+        loggingBuilder.AddNLog(config);
+      });
 
-        // Logging
-        .AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>))
-        .AddLogging(loggingBuilder =>
-        {
-          // configure Logging with NLog
-          loggingBuilder.ClearProviders();
-          loggingBuilder.SetMinimumLevel(LogLevel.Trace);
-          loggingBuilder.AddNLog(config);
-        });
-
-      _services = services.BuildServiceProvider();
-      _logger = _services.GetService<ILoggerAdapter<Program>>();
-    }
+    _services = services.BuildServiceProvider();
+    _logger = _services.GetService<ILoggerAdapter<Program>>();
   }
 }

@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rn.NetCore.Metrics", "Rn.Ne
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{7EF9623C-7D1B-444D-AEA8-8B666FA49BE4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rn.NetCore.Metrics.T1.Tests", "Rn.NetCore.Metrics.T1.Tests\Rn.NetCore.Metrics.T1.Tests.csproj", "{B909536F-4F7B-44ED-926F-B23514180B05}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rn.NetCore.Metrics.T1.Tests", "Rn.NetCore.Metrics.T1.Tests\Rn.NetCore.Metrics.T1.Tests.csproj", "{B909536F-4F7B-44ED-926F-B23514180B05}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevConsole", "DevConsole\DevConsole.csproj", "{761597F4-AC79-482A-9A5F-1906DF4E1ECB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevConsole", "DevConsole\DevConsole.csproj", "{761597F4-AC79-482A-9A5F-1906DF4E1ECB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{6C480069-B30E-4487-A443-D420B7AF1F8D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,7 +37,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{4372CF31-8FEA-4773-9DAC-C5FC6FA26CE5} = {7EF9623C-7D1B-444D-AEA8-8B666FA49BE4}
-		{B909536F-4F7B-44ED-926F-B23514180B05} = {7EF9623C-7D1B-444D-AEA8-8B666FA49BE4}
+		{B909536F-4F7B-44ED-926F-B23514180B05} = {6C480069-B30E-4487-A443-D420B7AF1F8D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D33B7723-BDD5-4DF0-8D25-C16659970F48}

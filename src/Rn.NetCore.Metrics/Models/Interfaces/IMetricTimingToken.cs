@@ -1,9 +1,8 @@
 ﻿using System;
 
-namespace Rn.NetCore.Metrics.Models
+namespace Rn.NetCore.Metrics.Models;
+
+public interface IMetricTimingToken : IDisposable
 {
-  public interface IMetricTimingToken : IDisposable
-  {
-    string FieldName { get; }
-  }
+  string FieldName { get; }
 }
