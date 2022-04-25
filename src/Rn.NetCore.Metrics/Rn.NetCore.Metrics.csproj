@@ -9,7 +9,12 @@
     <Authors>Richard Niemand</Authors>
     <NeutralLanguage>en</NeutralLanguage>
 	  <ProjectGuid>2EA3EBFA-2DF0-4B2D-B8DB-FDC2186E95E6</ProjectGuid>
+	  <CodeAnalysisRuleSet>..\.sonarlint\rn-netcore-metricscsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="..\.sonarlint\rn-netcore-metrics\CSharp\SonarLint.xml" Link="SonarLint.xml" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Rn.NetCore.Common" Version="6.0.0.107" />
