@@ -1,29 +1,28 @@
 ﻿using NUnit.Framework;
 using Rn.NetCore.Metrics.Outputs;
 
-namespace Rn.NetCore.Metrics.T1.Tests.Outputs
+namespace Rn.NetCore.Metrics.T1.Tests.Outputs;
+
+[TestFixture]
+public class CsvMetricOutputTests
 {
-  [TestFixture]
-  public class CsvMetricOutputTests
+  [Test]
+  public void CsvMetricOutput_GivenConstructed_ShouldSetEnabledFalse()
   {
-    [Test]
-    public void CsvMetricOutput_GivenConstructed_ShouldSetEnabledFalse()
-    {
-      // act
-      var output = new CsvMetricOutput();
+    // act
+    var output = new CsvMetricOutput();
 
-      // assert
-      Assert.IsFalse(output.Enabled);
-    }
+    // assert
+    Assert.IsFalse(output.Enabled);
+  }
 
-    [Test]
-    public void CsvMetricOutput_GivenConstructed_ShouldSetName()
-    {
-      // act
-      var output = new CsvMetricOutput();
+  [Test]
+  public void CsvMetricOutput_GivenConstructed_ShouldSetName()
+  {
+    // act
+    var output = new CsvMetricOutput();
 
-      // assert
-      Assert.AreEqual("CsvMetricOutput", output.Name);
-    }
+    // assert
+    Assert.AreEqual("CsvMetricOutput", output.Name);
   }
 }
