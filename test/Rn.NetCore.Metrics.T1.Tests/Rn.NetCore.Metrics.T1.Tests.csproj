@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Rn.NetCore.Metrics\Rn.NetCore.Metrics.csproj" />
+    <ProjectReference Include="..\..\src\Rn.NetCore.Metrics\Rn.NetCore.Metrics.csproj" />
   </ItemGroup>
 
 </Project>
