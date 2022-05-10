@@ -1,5 +1,6 @@
-﻿namespace Rn.NetCore.Metrics.Enums;
+namespace Rn.NetCore.Metrics.Enums;
 
+// DOCS: docs\enums\MetricPlaceholder.md
 public class MetricPlaceholder
 {
   public const string None = "(none)";

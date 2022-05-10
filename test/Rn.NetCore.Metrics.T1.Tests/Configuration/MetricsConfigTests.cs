@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using NUnit.Framework;
 using Rn.NetCore.Metrics.Configuration;
 
@@ -10,7 +10,7 @@ public class MetricsConfigTests
   [Test]
   public void MetricsConfig_Given_ConfigKey_ShouldBe_Static()
   {
-    Assert.AreEqual("RnCore:Metrics", MetricsConfig.ConfigKey);
+    Assert.AreEqual("Rn.Metrics", MetricsConfig.ConfigKey);
   }
 
   [Test]

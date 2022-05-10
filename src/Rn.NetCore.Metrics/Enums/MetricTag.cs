@@ -1,5 +1,6 @@
-﻿namespace Rn.NetCore.Metrics.Enums;
+namespace Rn.NetCore.Metrics.Enums;
 
+// DOCS: docs\enums\MetricTag.md
 public class MetricTag
 {
   public const string Source = "source";

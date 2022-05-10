@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Rn.NetCore.Metrics.Enums;
 using Rn.NetCore.Metrics.Models;
 
 namespace Rn.NetCore.Metrics.Builders;
 
+// DOCS: docs\builders\ServiceMetricBuilder.md
 public class ServiceMetricBuilder : MetricBuilderBase, IServiceMetricBuilder
 {
   public bool IsNullMetricBuilder { get; }

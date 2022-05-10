@@ -1,5 +1,6 @@
-﻿namespace Rn.NetCore.Metrics.Enums;
+namespace Rn.NetCore.Metrics.Enums;
 
+// DOCS: docs\enums\MetricField.md
 public class MetricField
 {
   public const string Value = "value";

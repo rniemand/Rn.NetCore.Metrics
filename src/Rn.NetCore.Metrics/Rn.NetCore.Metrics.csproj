@@ -1,15 +1,19 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Description>Common metrics components for my projetcts</Description>
-    <Version>6.0.0.104</Version>
+    <Version>6.0.1.100</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors>Richard Niemand</Authors>
     <NeutralLanguage>en</NeutralLanguage>
 	  <ProjectGuid>2EA3EBFA-2DF0-4B2D-B8DB-FDC2186E95E6</ProjectGuid>
 	  <CodeAnalysisRuleSet>..\.sonarlint\rn-netcore-metricscsharp.ruleset</CodeAnalysisRuleSet>
+	  <Nullable>annotations</Nullable>
+	  <PackageProjectUrl>https://github.com/rniemand/Rn.NetCore.Metrics</PackageProjectUrl>
+	  <PackageReadmeFile>README.md</PackageReadmeFile>
+	  <RepositoryUrl>https://github.com/rniemand/Rn.NetCore.Metrics</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,7 +21,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Rn.NetCore.Common" Version="6.0.0.109" />
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Rn.NetCore.Common" Version="6.0.1.100" />
   </ItemGroup>
 
 </Project>

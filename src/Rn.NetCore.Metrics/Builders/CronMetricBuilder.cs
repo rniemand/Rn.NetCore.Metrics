@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Rn.NetCore.Metrics.Enums;
 using Rn.NetCore.Metrics.Models;
 
 namespace Rn.NetCore.Metrics.Builders;
 
+// DOCS: docs\builders\CronMetricBuilder.md
 public class CronMetricBuilder : MetricBuilderBase, ICronMetricBuilder
 {
   public bool IsNullMetricBuilder { get; }

@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using Rn.NetCore.Metrics.Models;
 
 namespace Rn.NetCore.Metrics.Builders;
 
+// DOCS: docs\builders\NullCronMetricBuilder.md
 public class NullCronMetricBuilder : ICronMetricBuilder
 {
   public bool IsNullMetricBuilder { get; }
