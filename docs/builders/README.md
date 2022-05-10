@@ -1,21 +1,9 @@
-# Rn.NetCore.Metrics
-Metrics abstractions for your application.
+[Home](/README.md) / Builders
 
-## Configuration
-The following configuration documentation is available.
-
-- [appsettings.json](/docs/configuration/appsettings.md) - covers all available configuration supported in `appsettings.json`.
-
-## Metric Builders
+# Builders
 More to come...
 
 - [ServiceMetricBuilder](/docs/builders/ServiceMetricBuilder.md) - used to build service related metrics.
 - [NullServiceMetricBuilder](/docs/builders/NullServiceMetricBuilder.md) - `noop` metric builder.
 - [CronMetricBuilder](/docs/builders/CronMetricBuilder.md) - used to build `CRON` related metrics.
 - [NullCronMetricBuilder](/docs/builders/NullCronMetricBuilder.md) - `noop` metric builder.
-
-
-<!--(Rn.BuildScriptHelper){
-	"version": "1.0.106",
-	"replace": false
-}(END)-->

@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using Rn.NetCore.Metrics.Models;
 
 namespace Rn.NetCore.Metrics.Builders;
 
+// DOCS: docs\builders\NullServiceMetricBuilder.md
 public class NullServiceMetricBuilder : IServiceMetricBuilder
 {
   public bool IsNullMetricBuilder { get; }
