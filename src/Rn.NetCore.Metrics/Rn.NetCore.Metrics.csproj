@@ -10,10 +10,21 @@
     <NeutralLanguage>en</NeutralLanguage>
 	  <ProjectGuid>2EA3EBFA-2DF0-4B2D-B8DB-FDC2186E95E6</ProjectGuid>
 	  <CodeAnalysisRuleSet>..\.sonarlint\rn-netcore-metricscsharp.ruleset</CodeAnalysisRuleSet>
+	  <Nullable>annotations</Nullable>
+	  <PackageProjectUrl>https://github.com/rniemand/Rn.NetCore.Metrics</PackageProjectUrl>
+	  <PackageReadmeFile>README.md</PackageReadmeFile>
+	  <RepositoryUrl>https://github.com/rniemand/Rn.NetCore.Metrics</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
     <Content Include="..\.sonarlint\rn-netcore-metrics\CSharp\SonarLint.xml" Link="SonarLint.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
