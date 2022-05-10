@@ -1,34 +1,25 @@
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
-using Newtonsoft.Json;
+using Microsoft.Extensions.Configuration;
 
 namespace Rn.NetCore.Metrics.Configuration;
 
+// DOCS: docs\configuration\appsettings.md
 public class MetricsConfig
 {
   public const string ConfigKey = "Rn.Metrics";
 
-  [JsonProperty("Enabled"), JsonPropertyName("Enabled")]
+  [ConfigurationKeyName("enabled")]
   public bool Enabled { get; set; }
 
-  [JsonProperty("Application"), JsonPropertyName("Application")]
-  public string Application { get; set; }
+  [ConfigurationKeyName("application")]
+  public string Application { get; set; } = string.Empty;
 
-  [JsonProperty("Template"), JsonPropertyName("Template")]
-  public string Template { get; set; }
+  [ConfigurationKeyName("template")]
+  public string Template { get; set; } = "{app}/{measurement}";
 
-  [JsonProperty("Overrides"), JsonPropertyName("Overrides")]
-  public Dictionary<string, string> Overrides { get; set; }
+  [ConfigurationKeyName("overrides")]
+  public Dictionary<string, string> Overrides { get; set; } = new();
 
-  [JsonProperty("Environment"), JsonPropertyName("Environment")]
-  public string Environment { get; set; }
-
-  public MetricsConfig()
-  {
-    Enabled = false;
-    Application = string.Empty;
-    Template = "{app}/{measurement}";
-    Overrides = new Dictionary<string, string>();
-    Environment = "development";
-  }
+  [ConfigurationKeyName("environment")]
+  public string Environment { get; set; } = "development";
 }
