@@ -1,7 +1,11 @@
 # Rn.NetCore.Metrics
-Metrics abstractions for your application
+Metrics abstractions for your application.
 
-Source code for the project can be found [here](https://github.com/rniemand/Rn.NetCore.Metrics).
+## Configuration
+The following configuration documentation is available.
+
+- [appsettings.json](/docs/configuration/appsettings.md) - covers all available configuration supported in `appsettings.json`.
+
 
 <!--(Rn.BuildScriptHelper){
 	"version": "1.0.106",

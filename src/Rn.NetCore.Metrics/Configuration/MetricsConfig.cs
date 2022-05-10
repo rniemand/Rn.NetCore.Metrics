@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
@@ -6,7 +6,7 @@ namespace Rn.NetCore.Metrics.Configuration;
 
 public class MetricsConfig
 {
-  public const string ConfigKey = "RnCore:Metrics";
+  public const string ConfigKey = "Rn.Metrics";
 
   [JsonProperty("Enabled"), JsonPropertyName("Enabled")]
   public bool Enabled { get; set; }
