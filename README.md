@@ -14,6 +14,13 @@ More to come...
 - [CronMetricBuilder](/docs/builders/CronMetricBuilder.md) - used to build `CRON` related metrics.
 - [NullCronMetricBuilder](/docs/builders/NullCronMetricBuilder.md) - `noop` metric builder.
 
+## Enums
+More to come...
+
+- [MetricField](/docs/enums/MetricField.md)
+- [MetricPlaceholder](/docs/enums/MetricPlaceholder.md)
+- [MetricTag](/docs/enums/MetricTag.md)
+
 
 <!--(Rn.BuildScriptHelper){
 	"version": "1.0.106",
