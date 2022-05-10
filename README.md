@@ -1,6 +1,8 @@
 # Rn.NetCore.Metrics
 Metrics abstractions for your application.
 
+> **NOTE**: This project is still a `work-in-progress` and may change a lot during development.
+
 ## Configuration
 The following configuration documentation is available.
 
@@ -25,7 +27,6 @@ More to come...
 More to come...
 
 - [MetricConfigException](/docs/exceptions/MetricConfigException.md)
-
 
 <!--(Rn.BuildScriptHelper){
 	"version": "1.0.106",
