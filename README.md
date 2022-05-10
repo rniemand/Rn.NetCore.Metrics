@@ -21,6 +21,11 @@ More to come...
 - [MetricPlaceholder](/docs/enums/MetricPlaceholder.md)
 - [MetricTag](/docs/enums/MetricTag.md)
 
+## Exceptions
+More to come...
+
+- [MetricConfigException](/docs/exceptions/MetricConfigException.md)
+
 
 <!--(Rn.BuildScriptHelper){
 	"version": "1.0.106",
