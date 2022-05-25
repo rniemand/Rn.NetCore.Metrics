@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;
 using NSubstitute;
 using NUnit.Framework;
 using Rn.NetCore.Common.Logging;
@@ -35,8 +35,7 @@ public class GetConfigurationTests
 
     var metricServiceUtils = TestHelper.GetMetricServiceUtils(
       configuration: configuration,
-      logger: logger
-    );
+      logger: logger);
       
     // act
     metricServiceUtils.GetConfiguration();
@@ -44,8 +43,7 @@ public class GetConfigurationTests
     // assert
     logger.Received(1).LogWarning(
       "Metrics disabled (config '{key}' missing)",
-      MetricsConfig.ConfigKey
-    );
+      MetricsConfig.ConfigKey);
   }
 
   [Test]
