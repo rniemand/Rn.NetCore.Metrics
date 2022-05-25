@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;
 using Rn.NetCore.Common.Extensions;
 using Rn.NetCore.Common.Logging;
 using Rn.NetCore.Metrics.Configuration;
@@ -24,7 +24,6 @@ public class MetricServiceUtils : IMetricServiceUtils
     _configuration = configuration;
   }
 
-
   // Interface methods
   public MetricsConfig GetConfiguration()
   {
@@ -38,8 +37,7 @@ public class MetricServiceUtils : IMetricServiceUtils
     else
     {
       _logger.LogWarning("Metrics disabled (config '{key}' missing)",
-        MetricsConfig.ConfigKey
-      );
+        MetricsConfig.ConfigKey);
     }
 
     ProcessConfiguration(boundConfig);

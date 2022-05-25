@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;
 using NSubstitute;
 using Rn.NetCore.Common.Logging;
 
@@ -12,7 +12,6 @@ public static class TestHelper
   {
     return new MetricServiceUtils(
       logger ?? Substitute.For<ILoggerAdapter<MetricServiceUtils>>(),
-      configuration ?? new ConfigurationBuilder().Build()
-    );
+      configuration ?? new ConfigurationBuilder().Build());
   }
 }
