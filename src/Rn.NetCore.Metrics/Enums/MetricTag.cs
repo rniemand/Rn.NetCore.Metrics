@@ -14,4 +14,5 @@ public class MetricTag
   public const string Tag2 = "custom_tag2";
   public const string Tag3 = "custom_tag3";
   public const string Tag4 = "custom_tag4";
+  public const string Tag5 = "custom_tag5";
 }
