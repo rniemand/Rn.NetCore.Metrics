@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Rn.NetCore.Common.Extensions;
 
 namespace Rn.NetCore.Metrics.Models;
 
@@ -24,9 +25,9 @@ public class CoreMetric
     return this;
   }
 
-  public CoreMetric SetTag(string tag, string value)
+  public CoreMetric SetTag(string tag, string value, bool skipToLower = true)
   {
-    Tags[tag] = value;
+    Tags[tag] = skipToLower ? value : value.LowerTrim();
     return this;
   }
 
