@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Rn.NetCore.Common.Extensions;
 using Rn.NetCore.Metrics.Enums;
 using Rn.NetCore.Metrics.Models;
 
@@ -42,29 +43,18 @@ public sealed class ServiceMetricBuilderNew : CoreMetricBuilder<ServiceMetricBui
 {
   private int _queryCount = 0;
   private int _resultsCount = 0;
+  private string _serviceName = string.Empty;
+  private string _methodName = string.Empty;
+  private string _category = string.Empty;
+  private string _subCategory = string.Empty;
 
   public ServiceMetricBuilderNew()
-    :base("service_call")
+    : base("service_call")
   {
-    // Register default tags
-    AddAction(m => { m.SetTag(Tags.ServiceName, string.Empty); });
-    AddAction(m => { m.SetTag(Tags.ServiceMethod, string.Empty); });
-    AddAction(m => { m.SetTag(Tags.Category, string.Empty); });
-    AddAction(m => { m.SetTag(Tags.SubCategory, string.Empty); });
-
     // Register default fields
-    AddAction(m => { m.SetField(MetricField.UserId, 0); }); // unused
     AddAction(m => { m.SetField(MetricField.Timing1, 0L); }); // unused
     AddAction(m => { m.SetField(MetricField.Timing2, 0L); }); // unused
     AddAction(m => { m.SetField(MetricField.Timing3, 0L); }); // unused
-    AddAction(m => { m.SetField(MetricField.Int1, 0); }); // unused
-    AddAction(m => { m.SetField(MetricField.Int2, 0); }); // unused
-    AddAction(m => { m.SetField(MetricField.Int3, 0); }); // unused
-    AddAction(m => { m.SetField(MetricField.Int4, 0); }); // unused
-    AddAction(m => { m.SetField(MetricField.Int5, 0); }); // unused
-    AddAction(m => { m.SetField(MetricField.Long1, 0L); }); // unused
-    AddAction(m => { m.SetField(MetricField.Long2, 0L); }); // unused
-    AddAction(m => { m.SetField(MetricField.Long3, 0L); }); // unused
   }
 
   public ServiceMetricBuilderNew(string service, string method)
@@ -75,15 +65,15 @@ public sealed class ServiceMetricBuilderNew : CoreMetricBuilder<ServiceMetricBui
 
   public ServiceMetricBuilderNew ForService(string service, string method, bool skipToLower = true)
   {
-    AddAction(m => { m.SetTag(Tags.ServiceName, service, skipToLower); });
-    AddAction(m => { m.SetTag(Tags.ServiceMethod, method, skipToLower); });
+    _serviceName = skipToLower ? service : service.LowerTrim();
+    _methodName = skipToLower ? method : method.LowerTrim();
     return this;
   }
 
   public ServiceMetricBuilderNew WithCategory(string category, string subCategory, bool skipToLower = true)
   {
-    AddAction(m => { m.SetTag(Tags.Category, category, skipToLower); });
-    AddAction(m => { m.SetTag(Tags.SubCategory, subCategory, skipToLower); });
+    _category = skipToLower ? category : category.LowerTrim();
+    _subCategory = skipToLower ? subCategory : subCategory.LowerTrim();
     return this;
   }
 
@@ -158,101 +148,8 @@ public sealed class ServiceMetricBuilderNew : CoreMetricBuilder<ServiceMetricBui
     return this;
   }
 
-  public IServiceMetricBuilder WithCustomInt1(int value)
-  {
-    _customInt[0] = value;
-    return this;
-  }
-
-  public IServiceMetricBuilder IncrementCustomInt1(int amount = 1)
-  {
-    _customInt[0] += amount;
-    return this;
-  }
-
-  public IServiceMetricBuilder WithCustomInt2(int value)
-  {
-    _customInt[1] = value;
-    return this;
-  }
-
-  public IServiceMetricBuilder IncrementCustomInt2(int amount = 1)
-  {
-    _customInt[1] += amount;
-    return this;
-  }
-
-  public IServiceMetricBuilder WithCustomInt3(int value)
-  {
-    _customInt[2] = value;
-    return this;
-  }
-
-  public IServiceMetricBuilder IncrementCustomInt3(int amount = 1)
-  {
-    _customInt[2] += amount;
-    return this;
-  }
-
-  public IServiceMetricBuilder WithCustomInt4(int value)
-  {
-    _customInt[3] = value;
-    return this;
-  }
-
-  public IServiceMetricBuilder IncrementCustomInt4(int amount = 1)
-  {
-    _customInt[3] += amount;
-    return this;
-  }
-
-  public IServiceMetricBuilder WithCustomInt5(int value)
-  {
-    _customInt[4] = value;
-    return this;
-  }
-
-  public IServiceMetricBuilder IncrementCustomInt5(int amount = 1)
-  {
-    _customInt[4] += amount;
-    return this;
-  }
-
-  public IServiceMetricBuilder WithCustomLong1(long value)
-  {
-    _customLong[0] = value;
-    return this;
-  }
-
-  public IServiceMetricBuilder IncrementCustomLong1(long amount = 1)
-  {
-    _customLong[0] += amount;
-    return this;
-  }
-
-  public IServiceMetricBuilder WithCustomLong2(long value)
-  {
-    _customLong[1] = value;
-    return this;
-  }
-
-  public IServiceMetricBuilder IncrementCustomLong2(long amount = 1)
-  {
-    _customLong[1] += amount;
-    return this;
-  }
-
-  public IServiceMetricBuilder WithCustomLong3(long value)
-  {
-    _customLong[2] = value;
-    return this;
-  }
-
-  public IServiceMetricBuilder IncrementCustomLong3(long amount = 1)
-  {
-    _customLong[2] += amount;
-    return this;
-  }
+  
+  
 
   // Timings
   public IMetricTimingToken WithTiming()
@@ -305,7 +202,12 @@ public sealed class ServiceMetricBuilderNew : CoreMetricBuilder<ServiceMetricBui
 
   public override CoreMetric Build()
   {
-    // Handle custom values before building
+    // Append required metric tags
+    AddAction(m => { m.SetTag("service_name", _serviceName, true); });
+    AddAction(m => { m.SetTag("service_method", _methodName, true); });
+    AddAction(m => { m.SetTag("category", _category, true); });
+    AddAction(m => { m.SetTag("sub_category", _subCategory, true); });
+
     AddAction(m => { m.SetField(Fields.QueryCount, _queryCount); });
     AddAction(m => { m.SetField(Fields.ResultsCount, _resultsCount); });
 
@@ -313,14 +215,6 @@ public sealed class ServiceMetricBuilderNew : CoreMetricBuilder<ServiceMetricBui
   }
 
   // Misc.
-  public static class Tags
-  {
-    public const string ServiceName = "service_name";
-    public const string ServiceMethod = "service_method";
-    public const string Category = "category";
-    public const string SubCategory = "sub_category";
-  }
-
   public static class Fields
   {
     public const string QueryCount = "query_count";
@@ -362,6 +256,76 @@ public static class CoreMetricBuilderExtensions
     where TBuilder : ICoreMetricBuilder<TBuilder>
   {
     builder.AddAction(m => { m.SetTag(MetricTag.Tag5, value, skipToLower); });
+    return builder;
+  }
+
+  public static TBuilder WithCustomInt1<TBuilder>(this TBuilder builder, int value)
+    where TBuilder : ICoreMetricBuilder<TBuilder>
+  {
+    builder.AddAction(m => { m.SetField(MetricField.Int1, value); });
+    return builder;
+  }
+
+  public static TBuilder WithCustomInt2<TBuilder>(this TBuilder builder, int value)
+    where TBuilder : ICoreMetricBuilder<TBuilder>
+  {
+    builder.AddAction(m => { m.SetField(MetricField.Int2, value); });
+    return builder;
+  }
+
+  public static TBuilder WithCustomInt3<TBuilder>(this TBuilder builder, int value)
+    where TBuilder : ICoreMetricBuilder<TBuilder>
+  {
+    builder.AddAction(m => { m.SetField(MetricField.Int3, value); });
+    return builder;
+  }
+
+  public static TBuilder WithCustomInt4<TBuilder>(this TBuilder builder, int value)
+    where TBuilder : ICoreMetricBuilder<TBuilder>
+  {
+    builder.AddAction(m => { m.SetField(MetricField.Int4, value); });
+    return builder;
+  }
+
+  public static TBuilder WithCustomInt5<TBuilder>(this TBuilder builder, int value)
+    where TBuilder : ICoreMetricBuilder<TBuilder>
+  {
+    builder.AddAction(m => { m.SetField(MetricField.Int5, value); });
+    return builder;
+  }
+
+  public static TBuilder WithCustomLong1<TBuilder>(this TBuilder builder, long value)
+    where TBuilder : ICoreMetricBuilder<TBuilder>
+  {
+    builder.AddAction(m => { m.SetField(MetricField.Long1, value); });
+    return builder;
+  }
+
+  public static TBuilder WithCustomLong2<TBuilder>(this TBuilder builder, long value)
+    where TBuilder : ICoreMetricBuilder<TBuilder>
+  {
+    builder.AddAction(m => { m.SetField(MetricField.Long2, value); });
+    return builder;
+  }
+
+  public static TBuilder WithCustomLong3<TBuilder>(this TBuilder builder, long value)
+    where TBuilder : ICoreMetricBuilder<TBuilder>
+  {
+    builder.AddAction(m => { m.SetField(MetricField.Long3, value); });
+    return builder;
+  }
+
+  public static TBuilder WithCustomLong4<TBuilder>(this TBuilder builder, long value)
+    where TBuilder : ICoreMetricBuilder<TBuilder>
+  {
+    builder.AddAction(m => { m.SetField(MetricField.Long4, value); });
+    return builder;
+  }
+
+  public static TBuilder WithCustomLong5<TBuilder>(this TBuilder builder, long value)
+    where TBuilder : ICoreMetricBuilder<TBuilder>
+  {
+    builder.AddAction(m => { m.SetField(MetricField.Long5, value); });
     return builder;
   }
 

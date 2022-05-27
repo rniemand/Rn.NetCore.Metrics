@@ -25,7 +25,7 @@ public class CoreMetric
     return this;
   }
 
-  public CoreMetric SetTag(string tag, string value, bool skipToLower = true)
+  public CoreMetric SetTag(string tag, string value, bool skipToLower = false)
   {
     Tags[tag] = skipToLower ? value : value.LowerTrim();
     return this;
