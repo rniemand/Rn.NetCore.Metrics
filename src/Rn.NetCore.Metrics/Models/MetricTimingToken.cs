@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using Rn.NetCore.Metrics.Enums;
 
 namespace Rn.NetCore.Metrics.Models;

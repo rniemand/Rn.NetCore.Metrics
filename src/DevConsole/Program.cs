@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading;
 using Rn.NetCore.Common.Extensions;
 using Rn.NetCore.Metrics.Enums;
 using Rn.NetCore.Metrics.Models;
@@ -11,6 +13,7 @@ public interface ICoreMetricBuilder<TBuilder>
   string Measurement { get; }
 
   ICoreMetricBuilder<TBuilder> AddAction(Action<CoreMetric> action);
+  void SetSuccess(bool success);
 
   CoreMetric Build();
 }
@@ -34,7 +37,7 @@ public class CoreMetricBuilder<TBuilder> : ICoreMetricBuilder<TBuilder>
     return this;
   }
 
-  protected void SetSuccess(bool success)
+  public void SetSuccess(bool success)
   {
     _success = success;
   }
@@ -51,10 +54,12 @@ public class CoreMetricBuilder<TBuilder> : ICoreMetricBuilder<TBuilder>
 
   public virtual CoreMetric Build()
   {
-    AddAction(m => { m.SetTag(MetricTag.Success, _success); })
-      .AddAction(m => { m.SetTag(MetricTag.HasException, _hasException); })
-      .AddAction(m => { m.SetTag(MetricTag.ExceptionName, _exName, true); });
+    // Ensure that core fields and tags exist
+    AddAction(m => { m.SetTag("success", _success); })
+      .AddAction(m => { m.SetTag("has_ex", _hasException); })
+      .AddAction(m => { m.SetTag("ex_name", _exName, true); });
 
+    // Compile and build the metric
     var metric = new CoreMetric(Measurement);
     _actions.ForEach(a => a(metric));
     return metric;
@@ -141,33 +146,6 @@ public sealed class ServiceMetricBuilderNew : CoreMetricBuilder<ServiceMetricBui
  * public class ServiceMetricBuilder : MetricBuilderBase, IServiceMetricBuilder
 {
   public bool IsNullMetricBuilder { get; }
-  
-
-  public IServiceMetricBuilder MarkFailed(int resultsCount = -1)
-  {
-    SetSuccess(false);
-
-    if (resultsCount > -1)
-      _resultsCount = resultsCount;
-
-    return this;
-  }
-
-  public IServiceMetricBuilder MarkSuccess(int resultsCount = -1)
-  {
-    SetSuccess(true);
-
-    if (resultsCount > -1)
-      _resultsCount = resultsCount;
-
-    return this;
-  }
-
-  public IServiceMetricBuilder WithSuccess(bool success)
-  {
-    SetSuccess(success);
-    return this;
-  }
 
   // Timings
   public IMetricTimingToken WithTiming()
@@ -311,6 +289,54 @@ public static class CoreMetricBuilderExtensions
     builder.AddAction(m => { m.SetField(MetricField.UserId, userId); });
     return builder;
   }
+
+  public static TBuilder MarkFailed<TBuilder>(this TBuilder builder)
+    where TBuilder : ICoreMetricBuilder<TBuilder>
+  {
+    builder.SetSuccess(false);
+    return builder;
+  }
+
+  public static TBuilder MarkSuccess<TBuilder>(this TBuilder builder)
+    where TBuilder : ICoreMetricBuilder<TBuilder>
+  {
+    builder.SetSuccess(true);
+    return builder;
+  }
+
+  public static TBuilder WithSuccess<TBuilder>(this TBuilder builder, bool success)
+    where TBuilder : ICoreMetricBuilder<TBuilder>
+  {
+    builder.SetSuccess(success);
+    return builder;
+  }
+
+  public static IMetricTimingToken WithTiming<TBuilder>(this TBuilder builder)
+    where TBuilder : ICoreMetricBuilder<TBuilder>
+  {
+    return new MetricTimingTokenNew<TBuilder>(builder, "value");
+  }
+}
+
+public class MetricTimingTokenNew<TBuilder> : IMetricTimingToken
+{
+  public string FieldName { get; private set; }
+
+  private readonly ICoreMetricBuilder<TBuilder> _builder;
+  private readonly Stopwatch _stopwatch;
+
+  public MetricTimingTokenNew(ICoreMetricBuilder<TBuilder> builder, string fieldName)
+  {
+    _builder = builder;
+    FieldName = fieldName;
+    _stopwatch = Stopwatch.StartNew();
+  }
+
+  public void Dispose()
+  {
+    var elapsedMs = _stopwatch.ElapsedMilliseconds;
+    _builder.AddAction(m => { m.SetField(FieldName, elapsedMs); });
+  }
 }
 
 
@@ -326,6 +352,10 @@ internal class Program
       .WithResultsCount(5)
       .WithException(new Exception("Whoops"));
 
+    using (metricBuilder.WithTiming())
+    {
+      Thread.Sleep(125);
+    }
 
     var metric = metricBuilder.Build();
 
