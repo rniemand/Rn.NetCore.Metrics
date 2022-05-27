@@ -77,12 +77,7 @@ public sealed class ServiceMetricBuilderNew : CoreMetricBuilder<ServiceMetricBui
 
   public ServiceMetricBuilderNew()
     : base("service_call")
-  {
-    // Register default fields
-    AddAction(m => { m.SetField(MetricField.Timing1, 0L); }); // unused
-    AddAction(m => { m.SetField(MetricField.Timing2, 0L); }); // unused
-    AddAction(m => { m.SetField(MetricField.Timing3, 0L); }); // unused
-  }
+  { }
 
   public ServiceMetricBuilderNew(string service, string method)
     : this()
@@ -312,9 +307,24 @@ public static class CoreMetricBuilderExtensions
   }
 
   public static IMetricTimingToken WithTiming<TBuilder>(this TBuilder builder)
+    where TBuilder : ICoreMetricBuilder<TBuilder> => WithTiming(builder, "value");
+
+  public static IMetricTimingToken WithCustomTiming1<TBuilder>(this TBuilder builder)
+    where TBuilder : ICoreMetricBuilder<TBuilder> => WithTiming(builder, "custom_timing1");
+
+  public static IMetricTimingToken WithCustomTiming2<TBuilder>(this TBuilder builder)
+    where TBuilder : ICoreMetricBuilder<TBuilder> => WithTiming(builder, "custom_timing2");
+
+  public static IMetricTimingToken WithCustomTiming3<TBuilder>(this TBuilder builder)
+    where TBuilder : ICoreMetricBuilder<TBuilder> => WithTiming(builder, "custom_timing3");
+
+  public static IMetricTimingToken WithTiming<TBuilder>(this TBuilder builder, string? field)
     where TBuilder : ICoreMetricBuilder<TBuilder>
   {
-    return new MetricTimingTokenNew<TBuilder>(builder, "value");
+    if (string.IsNullOrWhiteSpace(field))
+      field = "value";
+
+    return new MetricTimingTokenNew<TBuilder>(builder, field);
   }
 }
 
@@ -336,6 +346,7 @@ public class MetricTimingTokenNew<TBuilder> : IMetricTimingToken
   {
     var elapsedMs = _stopwatch.ElapsedMilliseconds;
     _builder.AddAction(m => { m.SetField(FieldName, elapsedMs); });
+    GC.SuppressFinalize(this);
   }
 }
 
@@ -354,11 +365,13 @@ internal class Program
 
     using (metricBuilder.WithTiming())
     {
-      Thread.Sleep(125);
+      using (metricBuilder.WithCustomTiming1())
+      {
+        Thread.Sleep(125);
+      }
     }
 
     var metric = metricBuilder.Build();
-
 
     Console.WriteLine();
     Console.WriteLine();
