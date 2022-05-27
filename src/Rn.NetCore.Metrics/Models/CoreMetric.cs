@@ -31,6 +31,12 @@ public class CoreMetric
     return this;
   }
 
+  public CoreMetric SetTag(string tag, bool value)
+  {
+    Tags[tag] = value ? "true" : "false";
+    return this;
+  }
+
   public CoreMetric SetField(string field, long value)
   {
     Fields[field] = value;

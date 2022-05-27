@@ -19,6 +19,9 @@ public class CoreMetricBuilder<TBuilder> : ICoreMetricBuilder<TBuilder>
 {
   public string Measurement { get; }
   private readonly List<Action<CoreMetric>> _actions = new();
+  private bool _success = false;
+  private bool _hasException = false;
+  private string _exName = string.Empty;
 
   public CoreMetricBuilder(string measurement)
   {
@@ -31,8 +34,27 @@ public class CoreMetricBuilder<TBuilder> : ICoreMetricBuilder<TBuilder>
     return this;
   }
 
+  protected void SetSuccess(bool success)
+  {
+    _success = success;
+  }
+
+  protected void SetException(Exception ex) =>
+    SetException(ex.GetType().Name);
+
+  protected void SetException(string exceptionName)
+  {
+    SetSuccess(false);
+    _hasException = true;
+    _exName = exceptionName;
+  }
+
   public virtual CoreMetric Build()
   {
+    AddAction(m => { m.SetTag(MetricTag.Success, _success); })
+      .AddAction(m => { m.SetTag(MetricTag.HasException, _hasException); })
+      .AddAction(m => { m.SetTag(MetricTag.ExceptionName, _exName, true); });
+
     var metric = new CoreMetric(Measurement);
     _actions.ForEach(a => a(metric));
     return metric;
@@ -101,12 +123,7 @@ public sealed class ServiceMetricBuilderNew : CoreMetricBuilder<ServiceMetricBui
     return this;
   }
 
-  /*
- * public class ServiceMetricBuilder : MetricBuilderBase, IServiceMetricBuilder
-{
-  public bool IsNullMetricBuilder { get; }
-
-  public IServiceMetricBuilder CountResult(object result = null)
+  public ServiceMetricBuilderNew CountResult(object? result = null)
   {
     if (result != null)
       _resultsCount += 1;
@@ -114,11 +131,17 @@ public sealed class ServiceMetricBuilderNew : CoreMetricBuilder<ServiceMetricBui
     return this;
   }
 
-  public IServiceMetricBuilder WithException(Exception ex)
+  public ServiceMetricBuilderNew WithException(Exception ex)
   {
     SetException(ex);
     return this;
   }
+
+  /*
+ * public class ServiceMetricBuilder : MetricBuilderBase, IServiceMetricBuilder
+{
+  public bool IsNullMetricBuilder { get; }
+  
 
   public IServiceMetricBuilder MarkFailed(int resultsCount = -1)
   {
@@ -139,17 +162,12 @@ public sealed class ServiceMetricBuilderNew : CoreMetricBuilder<ServiceMetricBui
 
     return this;
   }
-    
-  
 
   public IServiceMetricBuilder WithSuccess(bool success)
   {
     SetSuccess(success);
     return this;
   }
-
-  
-  
 
   // Timings
   public IMetricTimingToken WithTiming()
@@ -163,62 +181,20 @@ public sealed class ServiceMetricBuilderNew : CoreMetricBuilder<ServiceMetricBui
 
   public IMetricTimingToken WithCustomTiming3()
     => new MetricTimingToken(CoreMetric, MetricField.Timing3);
-
-
-  // Finalization
-  public CoreMetric Build()
-  {
-    SetField(Fields.QueryCount, _queryCount);
-    SetField(Fields.ResultsCount, _resultsCount);
-    SetField(MetricField.Int1, _customInt[0]);
-    SetField(MetricField.Int2, _customInt[1]);
-    SetField(MetricField.Int3, _customInt[2]);
-    SetField(MetricField.Int4, _customInt[3]);
-    SetField(MetricField.Int5, _customInt[4]);
-    SetField(MetricField.Long1, _customLong[0]);
-    SetField(MetricField.Long2, _customLong[1]);
-    SetField(MetricField.Long3, _customLong[2]);
-
-    return CoreMetric;
-  }
-
-
-  // Misc.
-  public static class Tags
-  {
-    public const string ServiceName = "service_name";
-    public const string ServiceMethod = "service_method";
-    public const string Category = "category";
-    public const string SubCategory = "sub_category";
-  }
-
-  public static class Fields
-  {
-    public const string QueryCount = "query_count";
-    public const string ResultsCount = "results_count";
-  }
 }
  */
 
   public override CoreMetric Build()
   {
     // Append required metric tags
-    AddAction(m => { m.SetTag("service_name", _serviceName, true); });
-    AddAction(m => { m.SetTag("service_method", _methodName, true); });
-    AddAction(m => { m.SetTag("category", _category, true); });
-    AddAction(m => { m.SetTag("sub_category", _subCategory, true); });
-
-    AddAction(m => { m.SetField(Fields.QueryCount, _queryCount); });
-    AddAction(m => { m.SetField(Fields.ResultsCount, _resultsCount); });
+    AddAction(m => { m.SetTag("service_name", _serviceName, true); })
+      .AddAction(m => { m.SetTag("service_method", _methodName, true); })
+      .AddAction(m => { m.SetTag("category", _category, true); })
+      .AddAction(m => { m.SetTag("sub_category", _subCategory, true); })
+      .AddAction(m => { m.SetField("query_count", _queryCount); })
+      .AddAction(m => { m.SetField("results_count", _resultsCount); });
 
     return base.Build();
-  }
-
-  // Misc.
-  public static class Fields
-  {
-    public const string QueryCount = "query_count";
-    public const string ResultsCount = "results_count";
   }
 }
 
@@ -344,11 +320,14 @@ internal class Program
 
   static void Main(string[] args)
   {
-    var metric = new ServiceMetricBuilderNew("service", "method")
+    var metricBuilder = new ServiceMetricBuilderNew("service", "method")
       .WithCategory("category", "subCategory")
       .IncrementQueryCount(2)
       .WithResultsCount(5)
-      .Build();
+      .WithException(new Exception("Whoops"));
+
+
+    var metric = metricBuilder.Build();
 
 
     Console.WriteLine();
