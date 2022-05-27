@@ -31,6 +31,30 @@ public class CoreMetric
     return this;
   }
 
+  public CoreMetric SetField(string field, long value)
+  {
+    Fields[field] = value;
+    return this;
+  }
+
+  public CoreMetric SetField(string field, double value)
+  {
+    Fields[field] = value;
+    return this;
+  }
+
+  public CoreMetric SetField(string field, float value)
+  {
+    Fields[field] = value;
+    return this;
+  }
+
+  public CoreMetric SetField(string field, int value)
+  {
+    Fields[field] = value;
+    return this;
+  }
+  
   public CoreMetric WithDate(DateTime utcTimestamp)
   {
     UtcTimestamp = utcTimestamp;
