@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 namespace Rn.NetCore.Metrics.Configuration;
 
 // DOCS: docs\configuration\appsettings.md
-public class MetricsConfig
+public class RnMetricsConfig
 {
   public const string ConfigKey = "Rn.Metrics";
 

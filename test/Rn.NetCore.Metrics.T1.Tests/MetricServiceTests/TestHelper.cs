@@ -16,7 +16,7 @@ public static class TestHelper
     IDateTimeAbstraction dateTime = null,
     IMetricServiceUtils metricServiceUtils = null,
     IEnumerable<IMetricOutput> outputs = null,
-    MetricsConfig config = null)
+    RnMetricsConfig config = null)
   {
     return Substitute.For<IServiceProvider>()
       .WithLogger(logger)
@@ -27,18 +27,18 @@ public static class TestHelper
 
   public static IMetricServiceUtils GetMetricServiceUtils(
     IMetricServiceUtils utils = null,
-    MetricsConfig metricsConfig = null)
+    RnMetricsConfig rnMetricsConfig = null)
   {
-    return utils ?? CreateMetricServiceUtils(metricsConfig);
+    return utils ?? CreateMetricServiceUtils(rnMetricsConfig);
   }
 
   public static IMetricServiceUtils CreateMetricServiceUtils(
-    MetricsConfig metricsConfig = null)
+    RnMetricsConfig rnMetricsConfig = null)
   {
     var utils = Substitute.For<IMetricServiceUtils>();
-    metricsConfig ??= new MetricsConfigBuilder().BuildWithDefaults();
+    rnMetricsConfig ??= new MetricsConfigBuilder().BuildWithDefaults();
 
-    utils.GetConfiguration().Returns(metricsConfig);
+    utils.GetConfiguration().Returns(rnMetricsConfig);
 
     return utils;
   }

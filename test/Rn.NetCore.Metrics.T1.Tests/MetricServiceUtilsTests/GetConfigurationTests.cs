@@ -23,7 +23,7 @@ public class GetConfigurationTests
     metricServiceUtils.GetConfiguration();
 
     // assert
-    configuration.Received(1).GetSection(MetricsConfig.ConfigKey);
+    configuration.Received(1).GetSection(RnMetricsConfig.ConfigKey);
   }
 
   [Test]
@@ -43,7 +43,7 @@ public class GetConfigurationTests
     // assert
     logger.Received(1).LogWarning(
       "Metrics disabled (config '{key}' missing)",
-      MetricsConfig.ConfigKey);
+      RnMetricsConfig.ConfigKey);
   }
 
   [Test]
@@ -53,7 +53,7 @@ public class GetConfigurationTests
     var configuration = Substitute.For<IConfiguration>();
     var section = Substitute.For<IConfigurationSection>();
 
-    configuration.GetSection(MetricsConfig.ConfigKey).Returns(section);
+    configuration.GetSection(RnMetricsConfig.ConfigKey).Returns(section);
 
     var metricServiceUtils = TestHelper.GetMetricServiceUtils(
       configuration: configuration
@@ -63,6 +63,6 @@ public class GetConfigurationTests
     metricServiceUtils.GetConfiguration();
 
     // assert
-    section.Received(1).Bind(Arg.Any<MetricsConfig>());
+    section.Received(1).Bind(Arg.Any<RnMetricsConfig>());
   }
 }

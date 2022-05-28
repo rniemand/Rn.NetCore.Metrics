@@ -6,11 +6,11 @@ namespace Rn.NetCore.Metrics.T1.Tests.TestSupport;
 
 public class MetricsConfigBuilder
 {
-  private readonly MetricsConfig _config;
+  private readonly RnMetricsConfig _config;
 
   public MetricsConfigBuilder()
   {
-    _config = new MetricsConfig();
+    _config = new RnMetricsConfig();
   }
 
   public MetricsConfigBuilder WithDefaults()
@@ -55,11 +55,11 @@ public class MetricsConfigBuilder
     return this;
   }
 
-  public MetricsConfig Build() => _config;
+  public RnMetricsConfig Build() => _config;
 
-  public MetricsConfig BuildWithDefaults(bool enabled)
+  public RnMetricsConfig BuildWithDefaults(bool enabled)
     => WithDefaults().WithEnabled(enabled).Build();
 
-  public MetricsConfig BuildWithDefaults()
+  public RnMetricsConfig BuildWithDefaults()
     => WithDefaults().Build();
 }
