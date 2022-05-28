@@ -118,8 +118,8 @@ public class MetricService : IMetricService
 
     return coreMetric
       .WithDate(_dateTime.UtcNow)
-      .SetTag(MetricTag.Environment, _config.Environment)
-      .SetTag(MetricTag.Application, _config.Application)
+      .SetTag("environment", _config.Environment)
+      .SetTag("application", _config.Application)
       .UpdateMeasurement(GenerateMeasurement(measurement));
   }
 

@@ -1,5 +1,4 @@
 ﻿using Rn.NetCore.Metrics.Builders;
-using Rn.NetCore.Metrics.Enums;
 using Rn.NetCore.Metrics.Models;
 
 namespace Rn.NetCore.Metrics.Extensions;
@@ -75,7 +74,7 @@ public static class CoreMetricBuilderExtensions
   public static TBuilder WithUserId<TBuilder>(this TBuilder builder, int userId)
     where TBuilder : ICoreMetricBuilder<TBuilder>
   {
-    builder.AddAction(m => { m.SetField(MetricField.UserId, userId); });
+    builder.AddAction(m => { m.SetField("user_id", userId); });
     return builder;
   }
 
@@ -118,6 +117,6 @@ public static class CoreMetricBuilderExtensions
     if (string.IsNullOrWhiteSpace(field))
       field = "value";
 
-    return new MetricTimingTokenNew<TBuilder>(builder, field);
+    return new MetricTimingToken<TBuilder>(builder, field);
   }
 }

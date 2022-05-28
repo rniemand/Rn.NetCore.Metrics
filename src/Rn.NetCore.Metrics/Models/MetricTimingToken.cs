@@ -1,29 +1,28 @@
+using System;
 using System.Diagnostics;
-using Rn.NetCore.Metrics.Enums;
+using Rn.NetCore.Metrics.Builders;
 
 namespace Rn.NetCore.Metrics.Models;
 
-public class MetricTimingToken : IMetricTimingToken
-{
-  public string FieldName { get; private set; }
+public interface IMetricTimingToken : IDisposable { }
 
-  private readonly CoreMetric _metric;
+public class MetricTimingToken<TBuilder> : IMetricTimingToken
+{
+  private readonly ICoreMetricBuilder<TBuilder> _builder;
+  private readonly string _fieldName;
   private readonly Stopwatch _stopwatch;
 
-  public MetricTimingToken(CoreMetric metric, string fieldName)
+  public MetricTimingToken(ICoreMetricBuilder<TBuilder> builder, string fieldName)
   {
-    _metric = metric;
-    FieldName = fieldName;
-
-    // If there was no field name provided, fall back to "value"
-    if (string.IsNullOrWhiteSpace(FieldName))
-      FieldName = MetricField.Value;
-
+    _builder = builder;
+    _fieldName = fieldName;
     _stopwatch = Stopwatch.StartNew();
   }
 
   public void Dispose()
   {
-    _metric.Fields[FieldName] = _stopwatch.ElapsedMilliseconds;
+    var elapsedMs = _stopwatch.ElapsedMilliseconds;
+    _builder.AddAction(m => { m.SetField(_fieldName, elapsedMs); });
+    GC.SuppressFinalize(this);
   }
 }
