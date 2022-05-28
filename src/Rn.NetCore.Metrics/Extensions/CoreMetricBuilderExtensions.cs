@@ -1,7 +1,8 @@
-﻿using Rn.NetCore.Metrics.Enums;
+﻿using Rn.NetCore.Metrics.Builders;
+using Rn.NetCore.Metrics.Enums;
 using Rn.NetCore.Metrics.Models;
 
-namespace Rn.NetCore.Metrics.Builders;
+namespace Rn.NetCore.Metrics.Extensions;
 
 public static class CoreMetricBuilderExtensions
 {
@@ -100,16 +101,16 @@ public static class CoreMetricBuilderExtensions
   }
 
   public static IMetricTimingToken WithCustomTiming1<TBuilder>(this TBuilder builder)
-    where TBuilder : ICoreMetricBuilder<TBuilder> => WithTiming(builder, "custom_timing1");
+    where TBuilder : ICoreMetricBuilder<TBuilder> => builder.WithTiming("custom_timing1");
 
   public static IMetricTimingToken WithCustomTiming2<TBuilder>(this TBuilder builder)
-    where TBuilder : ICoreMetricBuilder<TBuilder> => WithTiming(builder, "custom_timing2");
+    where TBuilder : ICoreMetricBuilder<TBuilder> => builder.WithTiming("custom_timing2");
 
   public static IMetricTimingToken WithCustomTiming3<TBuilder>(this TBuilder builder)
-    where TBuilder : ICoreMetricBuilder<TBuilder> => WithTiming(builder, "custom_timing3");
+    where TBuilder : ICoreMetricBuilder<TBuilder> => builder.WithTiming("custom_timing3");
 
   public static IMetricTimingToken WithTiming<TBuilder>(this TBuilder builder)
-    where TBuilder : ICoreMetricBuilder<TBuilder> => WithTiming(builder, "value");
+    where TBuilder : ICoreMetricBuilder<TBuilder> => builder.WithTiming("value");
 
   public static IMetricTimingToken WithTiming<TBuilder>(this TBuilder builder, string? field)
     where TBuilder : ICoreMetricBuilder<TBuilder>

@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using Rn.NetCore.Common.Extensions;
 using Rn.NetCore.Metrics.Models;
 
 namespace Rn.NetCore.Metrics.Builders;
 
-public sealed class CronMetricBuilderNew : CoreMetricBuilder<CronMetricBuilderNew>
+public sealed class CronMetricBuilder : CoreMetricBuilder<CronMetricBuilder>
 {
   private string _cronClass = string.Empty;
   private string _cronMethod = string.Empty;
@@ -14,61 +14,61 @@ public sealed class CronMetricBuilderNew : CoreMetricBuilder<CronMetricBuilderNe
   private int _queryCount;
   private int _resultsCount;
 
-  public CronMetricBuilderNew()
+  public CronMetricBuilder()
     : base("cron_job")
   { }
 
-  public CronMetricBuilderNew(string cronClass, string cronMethod)
+  public CronMetricBuilder(string cronClass, string cronMethod)
     : this()
   {
     ForCronJob(cronClass, cronMethod);
   }
 
-  public CronMetricBuilderNew ForCronJob(string cronClass, string cronMethod)
+  public CronMetricBuilder ForCronJob(string cronClass, string cronMethod)
   {
     _cronClass = cronClass;
     _cronMethod = cronMethod;
     return this;
   }
 
-  public CronMetricBuilderNew WithCategory(string category, string subCategory, bool skipToLower = true)
+  public CronMetricBuilder WithCategory(string category, string subCategory, bool skipToLower = true)
   {
     _category = skipToLower ? category : category.LowerTrim();
     _subCategory = skipToLower ? subCategory : subCategory.LowerTrim();
     return this;
   }
 
-  public CronMetricBuilderNew WithException(Exception ex)
+  public CronMetricBuilder WithException(Exception ex)
   {
     SetException(ex);
     return this;
   }
 
-  public CronMetricBuilderNew WithQueryCount(int queryCount)
+  public CronMetricBuilder WithQueryCount(int queryCount)
   {
     _queryCount = queryCount;
     return this;
   }
 
-  public CronMetricBuilderNew IncrementQueryCount(int amount = 1)
+  public CronMetricBuilder IncrementQueryCount(int amount = 1)
   {
     _queryCount += amount;
     return this;
   }
 
-  public CronMetricBuilderNew WithResultsCount(int resultsCount)
+  public CronMetricBuilder WithResultsCount(int resultsCount)
   {
     _resultsCount = resultsCount;
     return this;
   }
 
-  public CronMetricBuilderNew IncrementResultsCount(int amount = 1)
+  public CronMetricBuilder IncrementResultsCount(int amount = 1)
   {
     _resultsCount += amount;
     return this;
   }
 
-  public CronMetricBuilderNew CountResult(object? result = null)
+  public CronMetricBuilder CountResult(object? result = null)
   {
     if (result != null)
       _resultsCount += 1;

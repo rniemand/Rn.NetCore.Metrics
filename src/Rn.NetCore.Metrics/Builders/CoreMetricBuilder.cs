@@ -1,8 +1,15 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Rn.NetCore.Metrics.Models;
 
 namespace Rn.NetCore.Metrics.Builders;
+
+public interface ICoreMetricBuilder<TBuilder>
+{
+  ICoreMetricBuilder<TBuilder> AddAction(Action<CoreMetric> action);
+  void SetSuccess(bool success);
+  CoreMetric Build();
+}
 
 public class CoreMetricBuilder<TBuilder> : ICoreMetricBuilder<TBuilder>
 {

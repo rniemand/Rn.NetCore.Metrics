@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Diagnostics;
-using Rn.NetCore.Metrics.Models;
+using Rn.NetCore.Metrics.Builders;
 
-namespace Rn.NetCore.Metrics.Builders;
+namespace Rn.NetCore.Metrics.Models;
 
 public class MetricTimingTokenNew<TBuilder> : IMetricTimingToken
 {

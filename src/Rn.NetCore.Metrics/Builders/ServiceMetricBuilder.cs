@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using Rn.NetCore.Common.Extensions;
 using Rn.NetCore.Metrics.Models;
 
 namespace Rn.NetCore.Metrics.Builders;
 
-public sealed class ServiceMetricBuilderNew : CoreMetricBuilder<ServiceMetricBuilderNew>
+public sealed class ServiceMetricBuilder : CoreMetricBuilder<ServiceMetricBuilder>
 {
   private int _queryCount;
   private int _resultsCount;
@@ -13,55 +13,55 @@ public sealed class ServiceMetricBuilderNew : CoreMetricBuilder<ServiceMetricBui
   private string _category = string.Empty;
   private string _subCategory = string.Empty;
 
-  public ServiceMetricBuilderNew()
+  public ServiceMetricBuilder()
     : base("service_call")
   { }
 
-  public ServiceMetricBuilderNew(string service, string method)
+  public ServiceMetricBuilder(string service, string method)
     : this()
   {
     ForService(service, method);
   }
 
-  public ServiceMetricBuilderNew ForService(string service, string method, bool skipToLower = true)
+  public ServiceMetricBuilder ForService(string service, string method, bool skipToLower = true)
   {
     _serviceName = skipToLower ? service : service.LowerTrim();
     _methodName = skipToLower ? method : method.LowerTrim();
     return this;
   }
 
-  public ServiceMetricBuilderNew WithCategory(string category, string subCategory, bool skipToLower = true)
+  public ServiceMetricBuilder WithCategory(string category, string subCategory, bool skipToLower = true)
   {
     _category = skipToLower ? category : category.LowerTrim();
     _subCategory = skipToLower ? subCategory : subCategory.LowerTrim();
     return this;
   }
 
-  public ServiceMetricBuilderNew WithQueryCount(int queryCount)
+  public ServiceMetricBuilder WithQueryCount(int queryCount)
   {
     _queryCount = queryCount;
     return this;
   }
 
-  public ServiceMetricBuilderNew IncrementQueryCount(int amount = 1)
+  public ServiceMetricBuilder IncrementQueryCount(int amount = 1)
   {
     _queryCount += amount;
     return this;
   }
 
-  public ServiceMetricBuilderNew WithResultsCount(int resultsCount)
+  public ServiceMetricBuilder WithResultsCount(int resultsCount)
   {
     _resultsCount = resultsCount;
     return this;
   }
 
-  public ServiceMetricBuilderNew IncrementResultsCount(int amount = 1)
+  public ServiceMetricBuilder IncrementResultsCount(int amount = 1)
   {
     _resultsCount += amount;
     return this;
   }
 
-  public ServiceMetricBuilderNew CountResult(object? result = null)
+  public ServiceMetricBuilder CountResult(object? result = null)
   {
     if (result != null)
       _resultsCount += 1;
@@ -69,7 +69,7 @@ public sealed class ServiceMetricBuilderNew : CoreMetricBuilder<ServiceMetricBui
     return this;
   }
 
-  public ServiceMetricBuilderNew WithException(Exception ex)
+  public ServiceMetricBuilder WithException(Exception ex)
   {
     SetException(ex);
     return this;
