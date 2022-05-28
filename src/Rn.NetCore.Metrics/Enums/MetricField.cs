@@ -16,8 +16,6 @@ public class MetricField
   public const string Long1 = "custom_long1";
   public const string Long2 = "custom_long2";
   public const string Long3 = "custom_long3";
-  public const string Long4 = "custom_long4";
-  public const string Long5 = "custom_long5";
 
   public const string Timing1 = "custom_timing1";
   public const string Timing2 = "custom_timing2";

@@ -174,107 +174,68 @@ public sealed class ServiceMetricBuilderNew : CoreMetricBuilder<ServiceMetricBui
 public static class CoreMetricBuilderExtensions
 {
   public static TBuilder WithCustomTag1<TBuilder>(this TBuilder builder, string value, bool skipToLower = false)
-    where TBuilder : ICoreMetricBuilder<TBuilder>
-  {
-    builder.AddAction(m => { m.SetTag(MetricTag.Tag1, value, skipToLower); });
-    return builder;
-  }
+    where TBuilder : ICoreMetricBuilder<TBuilder> => builder.WithTag("custom_tag1", value, skipToLower);
 
   public static TBuilder WithCustomTag2<TBuilder>(this TBuilder builder, string value, bool skipToLower = false)
-    where TBuilder : ICoreMetricBuilder<TBuilder>
-  {
-    builder.AddAction(m => { m.SetTag(MetricTag.Tag2, value, skipToLower); });
-    return builder;
-  }
+    where TBuilder : ICoreMetricBuilder<TBuilder> => builder.WithTag("custom_tag2", value, skipToLower);
 
   public static TBuilder WithCustomTag3<TBuilder>(this TBuilder builder, string value, bool skipToLower = false)
-    where TBuilder : ICoreMetricBuilder<TBuilder>
-  {
-    builder.AddAction(m => { m.SetTag(MetricTag.Tag3, value, skipToLower); });
-    return builder;
-  }
+    where TBuilder : ICoreMetricBuilder<TBuilder> => builder.WithTag("custom_tag3", value, skipToLower);
 
   public static TBuilder WithCustomTag4<TBuilder>(this TBuilder builder, string value, bool skipToLower = false)
-    where TBuilder : ICoreMetricBuilder<TBuilder>
-  {
-    builder.AddAction(m => { m.SetTag(MetricTag.Tag4, value, skipToLower); });
-    return builder;
-  }
+    where TBuilder : ICoreMetricBuilder<TBuilder> => builder.WithTag("custom_tag4", value, skipToLower);
 
   public static TBuilder WithCustomTag5<TBuilder>(this TBuilder builder, string value, bool skipToLower = false)
+    where TBuilder : ICoreMetricBuilder<TBuilder> => builder.WithTag("custom_tag5", value, skipToLower);
+
+  public static TBuilder WithTag<TBuilder>(this TBuilder builder, string tag, string value, bool skipToLower = false)
     where TBuilder : ICoreMetricBuilder<TBuilder>
   {
-    builder.AddAction(m => { m.SetTag(MetricTag.Tag5, value, skipToLower); });
+    builder.AddAction(m => { m.SetTag(tag, value, skipToLower); });
     return builder;
   }
 
   public static TBuilder WithCustomInt1<TBuilder>(this TBuilder builder, int value)
-    where TBuilder : ICoreMetricBuilder<TBuilder>
-  {
-    builder.AddAction(m => { m.SetField(MetricField.Int1, value); });
-    return builder;
-  }
+    where TBuilder : ICoreMetricBuilder<TBuilder> => builder.WitInt("custom_int1", value);
 
   public static TBuilder WithCustomInt2<TBuilder>(this TBuilder builder, int value)
-    where TBuilder : ICoreMetricBuilder<TBuilder>
-  {
-    builder.AddAction(m => { m.SetField(MetricField.Int2, value); });
-    return builder;
-  }
+    where TBuilder : ICoreMetricBuilder<TBuilder> => builder.WitInt("custom_int2", value);
 
   public static TBuilder WithCustomInt3<TBuilder>(this TBuilder builder, int value)
-    where TBuilder : ICoreMetricBuilder<TBuilder>
-  {
-    builder.AddAction(m => { m.SetField(MetricField.Int3, value); });
-    return builder;
-  }
+    where TBuilder : ICoreMetricBuilder<TBuilder> => builder.WitInt("custom_int3", value);
 
   public static TBuilder WithCustomInt4<TBuilder>(this TBuilder builder, int value)
-    where TBuilder : ICoreMetricBuilder<TBuilder>
-  {
-    builder.AddAction(m => { m.SetField(MetricField.Int4, value); });
-    return builder;
-  }
+    where TBuilder : ICoreMetricBuilder<TBuilder> => builder.WitInt("custom_int4", value);
 
   public static TBuilder WithCustomInt5<TBuilder>(this TBuilder builder, int value)
+    where TBuilder : ICoreMetricBuilder<TBuilder> => builder.WitInt("custom_int5", value);
+
+  public static TBuilder WitInt<TBuilder>(this TBuilder builder, string field, int value)
     where TBuilder : ICoreMetricBuilder<TBuilder>
   {
-    builder.AddAction(m => { m.SetField(MetricField.Int5, value); });
+    builder.AddAction(m => { m.SetField(field, value); });
     return builder;
   }
 
   public static TBuilder WithCustomLong1<TBuilder>(this TBuilder builder, long value)
-    where TBuilder : ICoreMetricBuilder<TBuilder>
-  {
-    builder.AddAction(m => { m.SetField(MetricField.Long1, value); });
-    return builder;
-  }
+    where TBuilder : ICoreMetricBuilder<TBuilder> => builder.WithLong("custom_long1", value);
 
   public static TBuilder WithCustomLong2<TBuilder>(this TBuilder builder, long value)
-    where TBuilder : ICoreMetricBuilder<TBuilder>
-  {
-    builder.AddAction(m => { m.SetField(MetricField.Long2, value); });
-    return builder;
-  }
+    where TBuilder : ICoreMetricBuilder<TBuilder> => builder.WithLong("custom_long2", value);
 
   public static TBuilder WithCustomLong3<TBuilder>(this TBuilder builder, long value)
-    where TBuilder : ICoreMetricBuilder<TBuilder>
-  {
-    builder.AddAction(m => { m.SetField(MetricField.Long3, value); });
-    return builder;
-  }
+    where TBuilder : ICoreMetricBuilder<TBuilder> => builder.WithLong("custom_long3", value);
 
   public static TBuilder WithCustomLong4<TBuilder>(this TBuilder builder, long value)
-    where TBuilder : ICoreMetricBuilder<TBuilder>
-  {
-    builder.AddAction(m => { m.SetField(MetricField.Long4, value); });
-    return builder;
-  }
+    where TBuilder : ICoreMetricBuilder<TBuilder> => builder.WithLong("custom_long4", value);
 
   public static TBuilder WithCustomLong5<TBuilder>(this TBuilder builder, long value)
+    where TBuilder : ICoreMetricBuilder<TBuilder> => builder.WithLong("custom_long5", value);
+
+  public static TBuilder WithLong<TBuilder>(this TBuilder builder, string field, long value)
     where TBuilder : ICoreMetricBuilder<TBuilder>
   {
-    builder.AddAction(m => { m.SetField(MetricField.Long5, value); });
+    builder.AddAction(m => { m.SetField(field, value); });
     return builder;
   }
 
@@ -306,9 +267,6 @@ public static class CoreMetricBuilderExtensions
     return builder;
   }
 
-  public static IMetricTimingToken WithTiming<TBuilder>(this TBuilder builder)
-    where TBuilder : ICoreMetricBuilder<TBuilder> => WithTiming(builder, "value");
-
   public static IMetricTimingToken WithCustomTiming1<TBuilder>(this TBuilder builder)
     where TBuilder : ICoreMetricBuilder<TBuilder> => WithTiming(builder, "custom_timing1");
 
@@ -317,6 +275,9 @@ public static class CoreMetricBuilderExtensions
 
   public static IMetricTimingToken WithCustomTiming3<TBuilder>(this TBuilder builder)
     where TBuilder : ICoreMetricBuilder<TBuilder> => WithTiming(builder, "custom_timing3");
+
+  public static IMetricTimingToken WithTiming<TBuilder>(this TBuilder builder)
+    where TBuilder : ICoreMetricBuilder<TBuilder> => WithTiming(builder, "value");
 
   public static IMetricTimingToken WithTiming<TBuilder>(this TBuilder builder, string? field)
     where TBuilder : ICoreMetricBuilder<TBuilder>
