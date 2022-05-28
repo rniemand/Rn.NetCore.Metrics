@@ -21,7 +21,7 @@ public static class DIContainer
 
     services
       .AddSingleton<IConfiguration>(config)
-      .AddRnMetricsBase()
+      .AddRnMetricsBase(config)
 
       .AddLogging(loggingBuilder =>
       {

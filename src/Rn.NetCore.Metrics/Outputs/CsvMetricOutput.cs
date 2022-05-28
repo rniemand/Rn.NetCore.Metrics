@@ -15,6 +15,9 @@ public class CsvMetricOutput : IMetricOutput
     Enabled = false;
   }
 
-  public async Task SubmitMetric(CoreMetric metric) => await Task.CompletedTask;
-  public async Task SubmitMetrics(List<CoreMetric> metrics) => await Task.CompletedTask;
+  public async Task SubmitMetric(CoreMetric metric) =>
+    await Task.CompletedTask;
+
+  public async Task SubmitMetrics(List<CoreMetric> metrics) =>
+    await Task.CompletedTask;
 }

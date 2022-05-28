@@ -15,8 +15,9 @@ namespace Rn.NetCore.Metrics;
 
 public interface IMetricService
 {
-  void SubmitBuilder(IMetricBuilder builder);
-  Task SubmitBuilderAsync(IMetricBuilder builder);
+  //void SubmitBuilder(IMetricBuilder builder);
+  //Task SubmitBuilderAsync(IMetricBuilder builder);
+  void SubmitMetric<TBuilder>(ICoreMetricBuilder<TBuilder> builder);
   void SubmitMetric(CoreMetric coreMetric);
   Task SubmitMetricAsync(CoreMetric coreMetric);
 }
@@ -47,23 +48,31 @@ public class MetricService : IMetricService
 
 
   // Interface methods
-  public void SubmitBuilder(IMetricBuilder builder)
+  //public void SubmitBuilder(IMetricBuilder builder)
+  //{
+  //  if (!_config.Enabled || builder.IsNullMetricBuilder)
+  //    return;
+
+  //  SubmitMetricAsync(builder.Build())
+  //    .ConfigureAwait(false)
+  //    .GetAwaiter()
+  //    .GetResult();
+  //}
+
+  //public async Task SubmitBuilderAsync(IMetricBuilder builder)
+  //{
+  //  if (!_config.Enabled || builder.IsNullMetricBuilder)
+  //    return;
+
+  //  await SubmitMetricAsync(builder.Build());
+  //}
+
+  public void SubmitMetric<TBuilder>(ICoreMetricBuilder<TBuilder> builder)
   {
-    if (!_config.Enabled || builder.IsNullMetricBuilder)
+    if (!_config.Enabled)
       return;
 
-    SubmitMetricAsync(builder.Build())
-      .ConfigureAwait(false)
-      .GetAwaiter()
-      .GetResult();
-  }
-
-  public async Task SubmitBuilderAsync(IMetricBuilder builder)
-  {
-    if (!_config.Enabled || builder.IsNullMetricBuilder)
-      return;
-
-    await SubmitMetricAsync(builder.Build());
+    SubmitMetric(builder.Build());
   }
 
   public void SubmitMetric(CoreMetric coreMetric)

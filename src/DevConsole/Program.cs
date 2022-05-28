@@ -1,5 +1,7 @@
 using System;
 using System.Threading;
+using Microsoft.Extensions.DependencyInjection;
+using Rn.NetCore.Metrics;
 using Rn.NetCore.Metrics.Builders;
 using Rn.NetCore.Metrics.Extensions;
 
@@ -22,8 +24,10 @@ internal class Program
         Thread.Sleep(125);
       }
     }
-
-    var metric = metricBuilder.Build();
+    
+    DIContainer.Get()
+      .GetRequiredService<IMetricService>()
+      .SubmitMetric(metricBuilder);
 
     Console.WriteLine();
     Console.WriteLine();
