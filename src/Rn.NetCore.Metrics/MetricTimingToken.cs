@@ -4,8 +4,7 @@ using Rn.NetCore.Metrics.Builders;
 
 namespace Rn.NetCore.Metrics;
 
-public interface IMetricTimingToken : IDisposable { }
-
+// DOCS: docs\MetricTimingToken.md
 public class MetricTimingToken<TBuilder> : IMetricTimingToken
 {
   private readonly ICoreMetricBuilder<TBuilder> _builder;

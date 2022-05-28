@@ -3,6 +3,7 @@ using Rn.NetCore.Common.Extensions;
 
 namespace Rn.NetCore.Metrics.Builders;
 
+// DOCS: docs\builders\ServiceMetricBuilder.md
 public sealed class ServiceMetricBuilder : CoreMetricBuilder<ServiceMetricBuilder>
 {
   private int _queryCount;

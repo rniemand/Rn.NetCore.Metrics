@@ -6,6 +6,7 @@ using Rn.NetCore.Metrics.Configuration;
 
 namespace Rn.NetCore.Metrics.Outputs;
 
+// DOCS: docs\outputs\ConsoleMetricOutput.md
 public class ConsoleMetricOutput : IMetricOutput
 {
   public bool Enabled { get; }

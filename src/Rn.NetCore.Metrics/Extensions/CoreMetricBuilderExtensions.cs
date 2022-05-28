@@ -1,7 +1,8 @@
-﻿using Rn.NetCore.Metrics.Builders;
+using Rn.NetCore.Metrics.Builders;
 
 namespace Rn.NetCore.Metrics.Extensions;
 
+// DOCS: docs\exceptions\MetricConfigException.md
 public static class CoreMetricBuilderExtensions
 {
   public static TBuilder WithCustomTag1<TBuilder>(this TBuilder builder, string value, bool skipToLower = false)

@@ -1,4 +1,3 @@
-using System;
 using System.Reflection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +11,7 @@ using Rn.NetCore.Metrics.Outputs;
 
 namespace Rn.NetCore.Metrics.Extensions;
 
+// DOCS: docs\exceptions\ServiceCollectionExtensions.md
 public static class ServiceCollectionExtensions
 {
   public static IServiceCollection AddRnMetricsBase(this IServiceCollection services, IConfiguration configuration)

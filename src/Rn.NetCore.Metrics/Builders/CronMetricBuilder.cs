@@ -3,6 +3,7 @@ using Rn.NetCore.Common.Extensions;
 
 namespace Rn.NetCore.Metrics.Builders;
 
+// DOCS: docs\builders\CronMetricBuilder.md
 public sealed class CronMetricBuilder : CoreMetricBuilder<CronMetricBuilder>
 {
   private string _cronClass = string.Empty;

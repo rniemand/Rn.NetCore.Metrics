@@ -5,6 +5,7 @@ using Rn.NetCore.Common.Extensions;
 
 namespace Rn.NetCore.Metrics;
 
+// DOCS: docs\CoreMetric.md
 public class CoreMetric
 {
   public string Measurement { get; private set; }

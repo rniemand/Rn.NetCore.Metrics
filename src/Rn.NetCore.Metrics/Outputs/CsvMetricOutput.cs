@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 namespace Rn.NetCore.Metrics.Outputs;
 
+// DOCS: docs\outputs\CsvMetricOutput.md
 public class CsvMetricOutput : IMetricOutput
 {
   public bool Enabled { get; private set; }
