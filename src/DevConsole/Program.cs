@@ -353,6 +353,14 @@ public sealed class CronMetricBuilderNew : CoreMetricBuilder<CronMetricBuilderNe
     return this;
   }
 
+  public CronMetricBuilderNew CountResult(object? result = null)
+  {
+    if (result != null)
+      _resultsCount += 1;
+
+    return this;
+  }
+
   public override CoreMetric Build()
   {
     // Append required metric tags
@@ -362,179 +370,19 @@ public sealed class CronMetricBuilderNew : CoreMetricBuilder<CronMetricBuilderNe
       .AddAction(m => { m.SetTag("sub_category", _subCategory, true); })
       .AddAction(m => { m.SetField("query_count", _queryCount); })
       .AddAction(m => { m.SetField("results_count", _resultsCount); });
-    
+
     return base.Build();
   }
 }
-
-
-/*
- * public class CronMetricBuilder : MetricBuilderBase, ICronMetricBuilder
-
-  public ICronMetricBuilder CountResult(object result = null)
-  {
-    if (result != null)
-      _resultsCount += 1;
-
-    return this;
-  }
-
-  public ICronMetricBuilder WithUserId(int userId)
-  {
-    SetField(MetricField.UserId, userId);
-    return this;
-  }
-
-  public ICronMetricBuilder WithSuccess(bool success)
-  {
-    SetSuccess(success);
-    return this;
-  }
-
-  public ICronMetricBuilder WithCustomTag1(object value, bool skipToLower = false)
-  {
-    SetObjectTag(MetricTag.Tag1, value, skipToLower);
-    return this;
-  }
-
-  public ICronMetricBuilder WithCustomTag2(object value, bool skipToLower = false)
-  {
-    SetObjectTag(MetricTag.Tag2, value, skipToLower);
-    return this;
-  }
-
-  public ICronMetricBuilder WithCustomTag3(object value, bool skipToLower = false)
-  {
-    SetObjectTag(MetricTag.Tag3, value, skipToLower);
-    return this;
-  }
-
-  public ICronMetricBuilder WithCustomTag4(object value, bool skipToLower = false)
-  {
-    SetObjectTag(MetricTag.Tag4, value, skipToLower);
-    return this;
-  }
-
-  public ICronMetricBuilder WithCustomInt1(int value)
-  {
-    _customInt[0] = value;
-    return this;
-  }
-
-  public ICronMetricBuilder IncrementCustomInt1(int amount = 1)
-  {
-    _customInt[0] += amount;
-    return this;
-  }
-
-  public ICronMetricBuilder WithCustomInt2(int value)
-  {
-    _customInt[1] = value;
-    return this;
-  }
-
-  public ICronMetricBuilder IncrementCustomInt2(int amount = 1)
-  {
-    _customInt[1] += amount;
-    return this;
-  }
-
-  public ICronMetricBuilder WithCustomInt3(int value)
-  {
-    _customInt[2] = value;
-    return this;
-  }
-
-  public ICronMetricBuilder IncrementCustomInt3(int amount = 1)
-  {
-    _customInt[2] += amount;
-    return this;
-  }
-
-  public ICronMetricBuilder WithCustomLong1(long value)
-  {
-    _customLong[0] = value;
-    return this;
-  }
-
-  public ICronMetricBuilder IncrementCustomLong1(long amount = 0)
-  {
-    _customLong[0] += amount;
-    return this;
-  }
-
-  public ICronMetricBuilder WithCustomLong2(long value)
-  {
-    _customLong[1] = value;
-    return this;
-  }
-
-  public ICronMetricBuilder IncrementCustomLong2(long amount = 0)
-  {
-    _customLong[1] += amount;
-    return this;
-  }
-
-  public ICronMetricBuilder WithCustomLong3(long value)
-  {
-    _customLong[2] = value;
-    return this;
-  }
-
-  public ICronMetricBuilder IncrementCustomLong3(long amount = 0)
-  {
-    _customLong[2] += amount;
-    return this;
-  }
-
-
-  // Timings
-  public IMetricTimingToken WithTiming()
-    => new MetricTimingToken(CoreMetric, MetricField.Value);
-
-  public IMetricTimingToken WithCustomTiming1()
-    => new MetricTimingToken(CoreMetric, MetricField.Timing1);
-
-  public IMetricTimingToken WithCustomTiming2()
-    => new MetricTimingToken(CoreMetric, MetricField.Timing2);
-
-  public IMetricTimingToken WithCustomTiming3()
-    => new MetricTimingToken(CoreMetric, MetricField.Timing3);
-
-
-  // Finalization
-  public CoreMetric Build()
-  {
-    SetField(Fields.QueryCount, _queryCount);
-    SetField(Fields.ResultsCount, _resultsCount);
-    SetField(MetricField.Int1, _customInt[0]);
-    SetField(MetricField.Int2, _customInt[1]);
-    SetField(MetricField.Int3, _customInt[2]);
-    SetField(MetricField.Long1, _customLong[0]);
-    SetField(MetricField.Long2, _customLong[1]);
-    SetField(MetricField.Long3, _customLong[2]);
-
-    return CoreMetric;
-  }
-
-
-  // Misc.
- 
-
-  public static class Fields
-  {
-    public const string QueryCount = "query_count";
-    public const string ResultsCount = "results_count";
-  }
-}
- */
-
 
 internal class Program
 {
   static void Main(string[] args)
   {
     var metricBuilder = new CronMetricBuilderNew()
+      .WithCustomTag1("op")
+      .WithCustomLong1(8)
+      .WithCustomInt4(9)
       .MarkFailed();
 
     using (metricBuilder.WithTiming())
@@ -546,7 +394,7 @@ internal class Program
     }
 
     var metric = metricBuilder.Build();
-    
+
     Console.WriteLine();
     Console.WriteLine();
   }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Rn.NetCore.Common.Extensions;
 
 namespace Rn.NetCore.Metrics.Models;
@@ -37,6 +38,30 @@ public class CoreMetric
     return this;
   }
 
+  public CoreMetric SetTag(string tag, int value)
+  {
+    Tags[tag] = value.ToString("D");
+    return this;
+  }
+
+  public CoreMetric SetTag(string tag, long value)
+  {
+    Tags[tag] = value.ToString("D");
+    return this;
+  }
+
+  public CoreMetric SetTag(string tag, double value)
+  {
+    Tags[tag] = value.ToString(CultureInfo.InvariantCulture);
+    return this;
+  }
+
+  public CoreMetric SetTag(string tag, byte value)
+  {
+    Tags[tag] = value.ToString(CultureInfo.InvariantCulture);
+    return this;
+  }
+
   public CoreMetric SetField(string field, long value)
   {
     Fields[field] = value;
@@ -60,7 +85,61 @@ public class CoreMetric
     Fields[field] = value;
     return this;
   }
-  
+
+  public CoreMetric SetField(string field, bool value)
+  {
+    Fields[field] = value;
+    return this;
+  }
+
+  public CoreMetric SetField(string field, sbyte value)
+  {
+    Fields[field] = value;
+    return this;
+  }
+
+  public CoreMetric SetField(string field, byte value)
+  {
+    Fields[field] = value;
+    return this;
+  }
+
+  public CoreMetric SetField(string field, short value)
+  {
+    Fields[field] = value;
+    return this;
+  }
+
+  public CoreMetric SetField(string field, ushort value)
+  {
+    Fields[field] = value;
+    return this;
+  }
+
+  public CoreMetric SetField(string field, uint value)
+  {
+    Fields[field] = value;
+    return this;
+  }
+
+  public CoreMetric SetField(string field, ulong value)
+  {
+    Fields[field] = value;
+    return this;
+  }
+
+  public CoreMetric SetField(string field, decimal value)
+  {
+    Fields[field] = value;
+    return this;
+  }
+
+  public CoreMetric SetField(string field, TimeSpan value)
+  {
+    Fields[field] = value;
+    return this;
+  }
+
   public CoreMetric WithDate(DateTime utcTimestamp)
   {
     UtcTimestamp = utcTimestamp;
