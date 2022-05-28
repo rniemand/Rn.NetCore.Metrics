@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
 using Rn.NetCore.Common.Abstractions;
 using Rn.NetCore.Common.Logging;
 using Rn.NetCore.Metrics.Builders;
@@ -15,57 +13,42 @@ namespace Rn.NetCore.Metrics;
 
 public interface IMetricService
 {
-  //void SubmitBuilder(IMetricBuilder builder);
-  //Task SubmitBuilderAsync(IMetricBuilder builder);
   void SubmitMetric<TBuilder>(ICoreMetricBuilder<TBuilder> builder);
   void SubmitMetric(CoreMetric coreMetric);
   Task SubmitMetricAsync(CoreMetric coreMetric);
+  Task SubmitMetricAsync<TBuilder>(ICoreMetricBuilder<TBuilder> builder);
 }
 
 public class MetricService : IMetricService
 {
   private readonly ILoggerAdapter<MetricService> _logger;
   private readonly IDateTimeAbstraction _dateTime;
-  private List<IMetricOutput> _outputs;
   private readonly RnMetricsConfig _config;
+  private readonly List<IMetricOutput> _outputs;
 
 
-  public MetricService(IServiceProvider serviceProvider)
+  public MetricService(
+    ILoggerAdapter<MetricService> logger,
+    IDateTimeAbstraction dateTime,
+    IEnumerable<IMetricOutput> outputs,
+    RnMetricsConfig config)
   {
-    _logger = serviceProvider.GetRequiredService<ILoggerAdapter<MetricService>>();
-    _dateTime = serviceProvider.GetRequiredService<IDateTimeAbstraction>();
-    _config = serviceProvider.GetRequiredService<RnMetricsConfig>();
+    _logger = logger;
+    _dateTime = dateTime;
+    _config = config;
 
     if (!_config.Enabled)
     {
+      _outputs = new List<IMetricOutput>();
       _logger.LogInformation("Metric service disabled (via config)");
       return;
     }
 
-    LoadMetricOutputs(serviceProvider);
+    _outputs = LoadMetricOutputs(outputs);
   }
 
 
   // Interface methods
-  //public void SubmitBuilder(IMetricBuilder builder)
-  //{
-  //  if (!_config.Enabled || builder.IsNullMetricBuilder)
-  //    return;
-
-  //  SubmitMetricAsync(builder.Build())
-  //    .ConfigureAwait(false)
-  //    .GetAwaiter()
-  //    .GetResult();
-  //}
-
-  //public async Task SubmitBuilderAsync(IMetricBuilder builder)
-  //{
-  //  if (!_config.Enabled || builder.IsNullMetricBuilder)
-  //    return;
-
-  //  await SubmitMetricAsync(builder.Build());
-  //}
-
   public void SubmitMetric<TBuilder>(ICoreMetricBuilder<TBuilder> builder)
   {
     if (!_config.Enabled)
@@ -97,26 +80,33 @@ public class MetricService : IMetricService
     }
   }
 
+  public async Task SubmitMetricAsync<TBuilder>(ICoreMetricBuilder<TBuilder> builder)
+  {
+    if (!_config.Enabled)
+      return;
+
+    await SubmitMetricAsync(builder.Build());
+  }
+
 
   // Internal methods
-  private void LoadMetricOutputs(IServiceProvider serviceProvider)
+  private List<IMetricOutput> LoadMetricOutputs(IEnumerable<IMetricOutput> outputs)
   {
-    _outputs = serviceProvider.GetRequiredService<IEnumerable<IMetricOutput>>()
-      .Where(x => x.Enabled)
-      .ToList();
+    var enabledOutputs = outputs.Where(x => x.Enabled).ToList();
 
     // No enabled outputs
-    if (_outputs.Count == 0)
+    if (enabledOutputs.Count == 0)
     {
       _logger.LogWarning("No enabled outputs, disabling metric service");
       _config.Enabled = false;
-      return;
+      return new List<IMetricOutput>();
     }
 
     // We are good to go
     _logger.LogInformation("Metric service running with {count} output(s)",
-      _outputs.Count
-    );
+      _outputs.Count);
+
+    return enabledOutputs;
   }
 
   private CoreMetric FinalizeMetric(CoreMetric coreMetric)
