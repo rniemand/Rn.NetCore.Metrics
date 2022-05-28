@@ -10,25 +10,23 @@ namespace DevConsole;
 
 public interface ICoreMetricBuilder<TBuilder>
 {
-  string Measurement { get; }
-
   ICoreMetricBuilder<TBuilder> AddAction(Action<CoreMetric> action);
   void SetSuccess(bool success);
-
   CoreMetric Build();
 }
 
 public class CoreMetricBuilder<TBuilder> : ICoreMetricBuilder<TBuilder>
 {
-  public string Measurement { get; }
   private readonly List<Action<CoreMetric>> _actions = new();
-  private bool _success = false;
-  private bool _hasException = false;
+  private readonly string _measurement;
+
+  private bool _success;
+  private bool _hasException;
   private string _exName = string.Empty;
 
   public CoreMetricBuilder(string measurement)
   {
-    Measurement = measurement;
+    _measurement = measurement;
   }
 
   public ICoreMetricBuilder<TBuilder> AddAction(Action<CoreMetric> action)
@@ -60,114 +58,9 @@ public class CoreMetricBuilder<TBuilder> : ICoreMetricBuilder<TBuilder>
       .AddAction(m => { m.SetTag("ex_name", _exName, true); });
 
     // Compile and build the metric
-    var metric = new CoreMetric(Measurement);
+    var metric = new CoreMetric(_measurement);
     _actions.ForEach(a => a(metric));
     return metric;
-  }
-}
-
-public sealed class ServiceMetricBuilderNew : CoreMetricBuilder<ServiceMetricBuilderNew>
-{
-  private int _queryCount = 0;
-  private int _resultsCount = 0;
-  private string _serviceName = string.Empty;
-  private string _methodName = string.Empty;
-  private string _category = string.Empty;
-  private string _subCategory = string.Empty;
-
-  public ServiceMetricBuilderNew()
-    : base("service_call")
-  { }
-
-  public ServiceMetricBuilderNew(string service, string method)
-    : this()
-  {
-    ForService(service, method);
-  }
-
-  public ServiceMetricBuilderNew ForService(string service, string method, bool skipToLower = true)
-  {
-    _serviceName = skipToLower ? service : service.LowerTrim();
-    _methodName = skipToLower ? method : method.LowerTrim();
-    return this;
-  }
-
-  public ServiceMetricBuilderNew WithCategory(string category, string subCategory, bool skipToLower = true)
-  {
-    _category = skipToLower ? category : category.LowerTrim();
-    _subCategory = skipToLower ? subCategory : subCategory.LowerTrim();
-    return this;
-  }
-
-  public ServiceMetricBuilderNew WithQueryCount(int queryCount)
-  {
-    _queryCount = queryCount;
-    return this;
-  }
-
-  public ServiceMetricBuilderNew IncrementQueryCount(int amount = 1)
-  {
-    _queryCount += amount;
-    return this;
-  }
-
-  public ServiceMetricBuilderNew WithResultsCount(int resultsCount)
-  {
-    _resultsCount = resultsCount;
-    return this;
-  }
-
-  public ServiceMetricBuilderNew IncrementResultsCount(int amount = 1)
-  {
-    _resultsCount += amount;
-    return this;
-  }
-
-  public ServiceMetricBuilderNew CountResult(object? result = null)
-  {
-    if (result != null)
-      _resultsCount += 1;
-
-    return this;
-  }
-
-  public ServiceMetricBuilderNew WithException(Exception ex)
-  {
-    SetException(ex);
-    return this;
-  }
-
-  /*
- * public class ServiceMetricBuilder : MetricBuilderBase, IServiceMetricBuilder
-{
-  public bool IsNullMetricBuilder { get; }
-
-  // Timings
-  public IMetricTimingToken WithTiming()
-    => new MetricTimingToken(CoreMetric, MetricField.Value);
-
-  public IMetricTimingToken WithCustomTiming1()
-    => new MetricTimingToken(CoreMetric, MetricField.Timing1);
-
-  public IMetricTimingToken WithCustomTiming2()
-    => new MetricTimingToken(CoreMetric, MetricField.Timing2);
-
-  public IMetricTimingToken WithCustomTiming3()
-    => new MetricTimingToken(CoreMetric, MetricField.Timing3);
-}
- */
-
-  public override CoreMetric Build()
-  {
-    // Append required metric tags
-    AddAction(m => { m.SetTag("service_name", _serviceName, true); })
-      .AddAction(m => { m.SetTag("service_method", _methodName, true); })
-      .AddAction(m => { m.SetTag("category", _category, true); })
-      .AddAction(m => { m.SetTag("sub_category", _subCategory, true); })
-      .AddAction(m => { m.SetField("query_count", _queryCount); })
-      .AddAction(m => { m.SetField("results_count", _resultsCount); });
-
-    return base.Build();
   }
 }
 
@@ -311,18 +204,338 @@ public class MetricTimingTokenNew<TBuilder> : IMetricTimingToken
   }
 }
 
+public sealed class ServiceMetricBuilderNew : CoreMetricBuilder<ServiceMetricBuilderNew>
+{
+  private int _queryCount;
+  private int _resultsCount;
+  private string _serviceName = string.Empty;
+  private string _methodName = string.Empty;
+  private string _category = string.Empty;
+  private string _subCategory = string.Empty;
+
+  public ServiceMetricBuilderNew()
+    : base("service_call")
+  { }
+
+  public ServiceMetricBuilderNew(string service, string method)
+    : this()
+  {
+    ForService(service, method);
+  }
+
+  public ServiceMetricBuilderNew ForService(string service, string method, bool skipToLower = true)
+  {
+    _serviceName = skipToLower ? service : service.LowerTrim();
+    _methodName = skipToLower ? method : method.LowerTrim();
+    return this;
+  }
+
+  public ServiceMetricBuilderNew WithCategory(string category, string subCategory, bool skipToLower = true)
+  {
+    _category = skipToLower ? category : category.LowerTrim();
+    _subCategory = skipToLower ? subCategory : subCategory.LowerTrim();
+    return this;
+  }
+
+  public ServiceMetricBuilderNew WithQueryCount(int queryCount)
+  {
+    _queryCount = queryCount;
+    return this;
+  }
+
+  public ServiceMetricBuilderNew IncrementQueryCount(int amount = 1)
+  {
+    _queryCount += amount;
+    return this;
+  }
+
+  public ServiceMetricBuilderNew WithResultsCount(int resultsCount)
+  {
+    _resultsCount = resultsCount;
+    return this;
+  }
+
+  public ServiceMetricBuilderNew IncrementResultsCount(int amount = 1)
+  {
+    _resultsCount += amount;
+    return this;
+  }
+
+  public ServiceMetricBuilderNew CountResult(object? result = null)
+  {
+    if (result != null)
+      _resultsCount += 1;
+
+    return this;
+  }
+
+  public ServiceMetricBuilderNew WithException(Exception ex)
+  {
+    SetException(ex);
+    return this;
+  }
+
+  public override CoreMetric Build()
+  {
+    // Append required metric tags
+    AddAction(m => { m.SetTag("service_name", _serviceName, true); })
+      .AddAction(m => { m.SetTag("service_method", _methodName, true); })
+      .AddAction(m => { m.SetTag("category", _category, true); })
+      .AddAction(m => { m.SetTag("sub_category", _subCategory, true); })
+      .AddAction(m => { m.SetField("query_count", _queryCount); })
+      .AddAction(m => { m.SetField("results_count", _resultsCount); });
+
+    return base.Build();
+  }
+}
+
+public sealed class CronMetricBuilderNew : CoreMetricBuilder<CronMetricBuilderNew>
+{
+  private string _cronClass = string.Empty;
+  private string _cronMethod = string.Empty;
+  private string _category = string.Empty;
+  private string _subCategory = string.Empty;
+
+  private int _queryCount;
+  private int _resultsCount;
+
+  public CronMetricBuilderNew()
+    : base("cron_job")
+  { }
+
+  public CronMetricBuilderNew(string cronClass, string cronMethod)
+    : this()
+  {
+    ForCronJob(cronClass, cronMethod);
+  }
+
+  public CronMetricBuilderNew ForCronJob(string cronClass, string cronMethod)
+  {
+    _cronClass = cronClass;
+    _cronMethod = cronMethod;
+    return this;
+  }
+
+  public CronMetricBuilderNew WithCategory(string category, string subCategory, bool skipToLower = true)
+  {
+    _category = skipToLower ? category : category.LowerTrim();
+    _subCategory = skipToLower ? subCategory : subCategory.LowerTrim();
+    return this;
+  }
+
+  public CronMetricBuilderNew WithException(Exception ex)
+  {
+    SetException(ex);
+    return this;
+  }
+
+  public CronMetricBuilderNew WithQueryCount(int queryCount)
+  {
+    _queryCount = queryCount;
+    return this;
+  }
+
+  public CronMetricBuilderNew IncrementQueryCount(int amount = 1)
+  {
+    _queryCount += amount;
+    return this;
+  }
+
+  public CronMetricBuilderNew WithResultsCount(int resultsCount)
+  {
+    _resultsCount = resultsCount;
+    return this;
+  }
+
+  public CronMetricBuilderNew IncrementResultsCount(int amount = 1)
+  {
+    _resultsCount += amount;
+    return this;
+  }
+
+  public override CoreMetric Build()
+  {
+    // Append required metric tags
+    AddAction(m => { m.SetTag("cron_class", _cronClass, true); })
+      .AddAction(m => { m.SetTag("cron_method", _cronMethod, true); })
+      .AddAction(m => { m.SetTag("category", _category, true); })
+      .AddAction(m => { m.SetTag("sub_category", _subCategory, true); })
+      .AddAction(m => { m.SetField("query_count", _queryCount); })
+      .AddAction(m => { m.SetField("results_count", _resultsCount); });
+    
+    return base.Build();
+  }
+}
+
+
+/*
+ * public class CronMetricBuilder : MetricBuilderBase, ICronMetricBuilder
+
+  public ICronMetricBuilder CountResult(object result = null)
+  {
+    if (result != null)
+      _resultsCount += 1;
+
+    return this;
+  }
+
+  public ICronMetricBuilder WithUserId(int userId)
+  {
+    SetField(MetricField.UserId, userId);
+    return this;
+  }
+
+  public ICronMetricBuilder WithSuccess(bool success)
+  {
+    SetSuccess(success);
+    return this;
+  }
+
+  public ICronMetricBuilder WithCustomTag1(object value, bool skipToLower = false)
+  {
+    SetObjectTag(MetricTag.Tag1, value, skipToLower);
+    return this;
+  }
+
+  public ICronMetricBuilder WithCustomTag2(object value, bool skipToLower = false)
+  {
+    SetObjectTag(MetricTag.Tag2, value, skipToLower);
+    return this;
+  }
+
+  public ICronMetricBuilder WithCustomTag3(object value, bool skipToLower = false)
+  {
+    SetObjectTag(MetricTag.Tag3, value, skipToLower);
+    return this;
+  }
+
+  public ICronMetricBuilder WithCustomTag4(object value, bool skipToLower = false)
+  {
+    SetObjectTag(MetricTag.Tag4, value, skipToLower);
+    return this;
+  }
+
+  public ICronMetricBuilder WithCustomInt1(int value)
+  {
+    _customInt[0] = value;
+    return this;
+  }
+
+  public ICronMetricBuilder IncrementCustomInt1(int amount = 1)
+  {
+    _customInt[0] += amount;
+    return this;
+  }
+
+  public ICronMetricBuilder WithCustomInt2(int value)
+  {
+    _customInt[1] = value;
+    return this;
+  }
+
+  public ICronMetricBuilder IncrementCustomInt2(int amount = 1)
+  {
+    _customInt[1] += amount;
+    return this;
+  }
+
+  public ICronMetricBuilder WithCustomInt3(int value)
+  {
+    _customInt[2] = value;
+    return this;
+  }
+
+  public ICronMetricBuilder IncrementCustomInt3(int amount = 1)
+  {
+    _customInt[2] += amount;
+    return this;
+  }
+
+  public ICronMetricBuilder WithCustomLong1(long value)
+  {
+    _customLong[0] = value;
+    return this;
+  }
+
+  public ICronMetricBuilder IncrementCustomLong1(long amount = 0)
+  {
+    _customLong[0] += amount;
+    return this;
+  }
+
+  public ICronMetricBuilder WithCustomLong2(long value)
+  {
+    _customLong[1] = value;
+    return this;
+  }
+
+  public ICronMetricBuilder IncrementCustomLong2(long amount = 0)
+  {
+    _customLong[1] += amount;
+    return this;
+  }
+
+  public ICronMetricBuilder WithCustomLong3(long value)
+  {
+    _customLong[2] = value;
+    return this;
+  }
+
+  public ICronMetricBuilder IncrementCustomLong3(long amount = 0)
+  {
+    _customLong[2] += amount;
+    return this;
+  }
+
+
+  // Timings
+  public IMetricTimingToken WithTiming()
+    => new MetricTimingToken(CoreMetric, MetricField.Value);
+
+  public IMetricTimingToken WithCustomTiming1()
+    => new MetricTimingToken(CoreMetric, MetricField.Timing1);
+
+  public IMetricTimingToken WithCustomTiming2()
+    => new MetricTimingToken(CoreMetric, MetricField.Timing2);
+
+  public IMetricTimingToken WithCustomTiming3()
+    => new MetricTimingToken(CoreMetric, MetricField.Timing3);
+
+
+  // Finalization
+  public CoreMetric Build()
+  {
+    SetField(Fields.QueryCount, _queryCount);
+    SetField(Fields.ResultsCount, _resultsCount);
+    SetField(MetricField.Int1, _customInt[0]);
+    SetField(MetricField.Int2, _customInt[1]);
+    SetField(MetricField.Int3, _customInt[2]);
+    SetField(MetricField.Long1, _customLong[0]);
+    SetField(MetricField.Long2, _customLong[1]);
+    SetField(MetricField.Long3, _customLong[2]);
+
+    return CoreMetric;
+  }
+
+
+  // Misc.
+ 
+
+  public static class Fields
+  {
+    public const string QueryCount = "query_count";
+    public const string ResultsCount = "results_count";
+  }
+}
+ */
+
 
 internal class Program
 {
-  private static readonly IServiceProvider Services = DIContainer.Get();
-
   static void Main(string[] args)
   {
-    var metricBuilder = new ServiceMetricBuilderNew("service", "method")
-      .WithCategory("category", "subCategory")
-      .IncrementQueryCount(2)
-      .WithResultsCount(5)
-      .WithException(new Exception("Whoops"));
+    var metricBuilder = new CronMetricBuilderNew()
+      .MarkFailed();
 
     using (metricBuilder.WithTiming())
     {
@@ -333,7 +546,7 @@ internal class Program
     }
 
     var metric = metricBuilder.Build();
-
+    
     Console.WriteLine();
     Console.WriteLine();
   }
