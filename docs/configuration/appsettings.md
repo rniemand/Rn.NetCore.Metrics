@@ -10,7 +10,8 @@ Configuration for **Rn.NetCore.Metrics** is done via your projects `appsettings.
     "application": "MyApp",
     "template": "{app}/{measurement}",
     "overrides": {},
-    "environment": "production"
+    "environment": "production",
+    "enableConsoleOutput": false
   }
 }
 ```

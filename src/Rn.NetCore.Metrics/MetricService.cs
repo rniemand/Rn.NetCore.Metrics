@@ -27,15 +27,14 @@ public class MetricService : IMetricService
   private readonly ILoggerAdapter<MetricService> _logger;
   private readonly IDateTimeAbstraction _dateTime;
   private List<IMetricOutput> _outputs;
-  private readonly MetricsConfig _config;
+  private readonly RnMetricsConfig _config;
 
 
   public MetricService(IServiceProvider serviceProvider)
   {
     _logger = serviceProvider.GetRequiredService<ILoggerAdapter<MetricService>>();
     _dateTime = serviceProvider.GetRequiredService<IDateTimeAbstraction>();
-    _config = serviceProvider.GetRequiredService<IMetricServiceUtils>()
-      .GetConfiguration();
+    _config = serviceProvider.GetRequiredService<RnMetricsConfig>();
 
     if (!_config.Enabled)
     {

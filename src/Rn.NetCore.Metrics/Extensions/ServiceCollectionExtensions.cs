@@ -8,6 +8,7 @@ using Rn.NetCore.Common.Extensions;
 using Rn.NetCore.Common.Logging;
 using Rn.NetCore.Metrics.Configuration;
 using Rn.NetCore.Metrics.Exceptions;
+using Rn.NetCore.Metrics.Outputs;
 
 namespace Rn.NetCore.Metrics.Extensions;
 
@@ -18,7 +19,12 @@ public static class ServiceCollectionExtensions
     services.TryAddSingleton<IMetricService, MetricService>();
     services.TryAddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
     services.TryAddSingleton<IDateTimeAbstraction, DateTimeAbstraction>();
-    services.TryAddSingleton(GetMetricsConfig(configuration));
+
+    var rnMetricsConfig = GetMetricsConfig(configuration);
+    services.TryAddSingleton(rnMetricsConfig);
+
+    if(rnMetricsConfig.EnableConsoleOutput)
+      services.TryAddSingleton<IMetricOutput, ConsoleMetricOutput>();
 
     return services;
   }

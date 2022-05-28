@@ -22,4 +22,7 @@ public class RnMetricsConfig
 
   [ConfigurationKeyName("environment")]
   public string Environment { get; set; } = "development";
+
+  [ConfigurationKeyName("enableConsoleOutput")]
+  public bool EnableConsoleOutput { get; set; } = false;
 }
