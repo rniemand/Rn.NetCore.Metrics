@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Rn.NetCore.Metrics.Configuration;
-using Rn.NetCore.Metrics.Models;
 
 namespace Rn.NetCore.Metrics.Outputs;
 

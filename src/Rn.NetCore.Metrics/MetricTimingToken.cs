@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using Rn.NetCore.Metrics.Builders;
 
-namespace Rn.NetCore.Metrics.Models;
+namespace Rn.NetCore.Metrics;
 
 public interface IMetricTimingToken : IDisposable { }
 

@@ -1,4 +1,4 @@
-namespace Rn.NetCore.Metrics.Enums;
+namespace Rn.NetCore.Metrics;
 
 // DOCS: docs\enums\MetricPlaceholder.md
 public class MetricPlaceholder

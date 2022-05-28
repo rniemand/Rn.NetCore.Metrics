@@ -6,7 +6,6 @@ using Rn.NetCore.Common.Logging;
 using Rn.NetCore.Metrics.Builders;
 using Rn.NetCore.Metrics.Configuration;
 using Rn.NetCore.Metrics.Enums;
-using Rn.NetCore.Metrics.Models;
 using Rn.NetCore.Metrics.Outputs;
 
 namespace Rn.NetCore.Metrics;

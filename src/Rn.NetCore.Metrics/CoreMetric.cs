@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using Rn.NetCore.Common.Extensions;
 
-namespace Rn.NetCore.Metrics.Models;
+namespace Rn.NetCore.Metrics;
 
 public class CoreMetric
 {
