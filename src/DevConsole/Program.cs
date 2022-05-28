@@ -1,48 +1,35 @@
 using System;
-using System.IO;
-using Microsoft.Extensions.Configuration;
+using System.Threading;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using NLog.Extensions.Logging;
 using Rn.NetCore.Metrics;
+using Rn.NetCore.Metrics.Builders;
 using Rn.NetCore.Metrics.Extensions;
 
 namespace DevConsole;
 
 internal class Program
 {
-  private static IServiceProvider _services;
-
   static void Main(string[] args)
   {
-    ConfigureDI();
+    var metricBuilder = new CronMetricBuilder()
+      .WithCustomTag1("op")
+      .WithCustomLong1(8)
+      .WithCustomInt4(9)
+      .MarkFailed();
 
-    var metricsService = _services.GetRequiredService<IMetricService>();
-
-    Console.WriteLine();
-    Console.WriteLine();
-  }
-
-  private static void ConfigureDI()
-  {
-    var services = new ServiceCollection();
-
-    var config = new ConfigurationBuilder()
-      .SetBasePath(Directory.GetCurrentDirectory())
-      .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-      .Build();
-
-    services
-      .AddSingleton<IConfiguration>(config)
-      .AddRnMetricsBase()
-
-      .AddLogging(loggingBuilder =>
+    using (metricBuilder.WithTiming())
+    {
+      using (metricBuilder.WithCustomTiming1())
       {
-        loggingBuilder.ClearProviders();
-        loggingBuilder.SetMinimumLevel(LogLevel.Trace);
-        loggingBuilder.AddNLog(config);
-      });
+        Thread.Sleep(125);
+      }
+    }
+    
+    DIContainer.Get()
+      .GetRequiredService<IMetricService>()
+      .SubmitMetric(metricBuilder);
 
-    _services = services.BuildServiceProvider();
+    Console.WriteLine();
+    Console.WriteLine();
   }
 }

@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 
 namespace Rn.NetCore.Metrics.Exceptions;
 
-// docs\exceptions\MetricConfigException.md
+// DOCS: docs\exceptions\MetricConfigException.md
 [Serializable]
 public class MetricConfigException : Exception
 {
