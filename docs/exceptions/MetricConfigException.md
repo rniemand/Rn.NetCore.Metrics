@@ -3,3 +3,9 @@
 # MetricConfigException
 More to come...
 
+```cs
+public class MetricConfigException : Exception
+{
+  public string Property { get; set; }
+}
+```
