@@ -4,13 +4,6 @@ using System.Collections.Generic;
 namespace Rn.NetCore.Metrics.Builders;
 
 // DOCS: docs\builders\CoreMetricBuilder.md
-public interface ICoreMetricBuilder<TBuilder>
-{
-  ICoreMetricBuilder<TBuilder> AddAction(Action<CoreMetric> action);
-  void SetSuccess(bool success);
-  CoreMetric Build();
-}
-
 public class CoreMetricBuilder<TBuilder> : ICoreMetricBuilder<TBuilder>
 {
   private readonly List<Action<CoreMetric>> _actions = new();

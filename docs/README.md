@@ -1,11 +1,15 @@
 [Home](/README.md) / Docs
 
 # Documentation
-Starter documentation for `Rn.NetCore.Metrics`.
+- [CoreMetric](/docs/CoreMetric.md)
+- [IMetricService](/docs/IMetricService.md)
+- [IMetricTimingToken](/docs/IMetricTimingToken.md)
+- [MetricPlaceholder](/docs/MetricPlaceholder.md)
+- [MetricService](/docs/MetricService.md)
+- [MetricTimingToken](/docs/MetricTimingToken.md)
 
-More to come...
 
 <!--(Rn.BuildScriptHelper){
 	"version": "1.0.107",
-	"replace": true
+	"replace": false
 }(END)-->

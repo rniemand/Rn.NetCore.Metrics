@@ -1,5 +1,4 @@
 [Home](/README.md) / Configuration
 
 # Configuration
-More to come...
-
+- [RnMetricsConfig](/docs/config/RnMetricsConfig.md)

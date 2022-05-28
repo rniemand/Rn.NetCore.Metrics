@@ -1,5 +1,5 @@
 [Home](/README.md) / Extensions
 
 # Extensions
-More to come...
-
+- [CoreMetricBuilderExtensions](/docs/extensions/CoreMetricBuilderExtensions.md)
+- [ServiceCollectionExtensions](/docs/extensions/ServiceCollectionExtensions.md)
