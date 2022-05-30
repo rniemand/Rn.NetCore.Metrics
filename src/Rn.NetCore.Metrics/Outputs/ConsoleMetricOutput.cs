@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Rn.NetCore.Metrics.Abstractions;
 using Rn.NetCore.Metrics.Configuration;
 
 namespace Rn.NetCore.Metrics.Outputs;
@@ -11,11 +12,19 @@ public class ConsoleMetricOutput : IMetricOutput
 {
   public bool Enabled { get; }
   public string Name => nameof(ConsoleMetricOutput);
+  private readonly IConsole _console;
 
-  public ConsoleMetricOutput(RnMetricsConfig metricsConfig)
+  public ConsoleMetricOutput(
+    RnMetricsConfig metricsConfig,
+    IConsole console)
   {
+    _console = console;
     Enabled = metricsConfig.EnableConsoleOutput && metricsConfig.Enabled;
   }
+
+  public ConsoleMetricOutput(RnMetricsConfig metricsConfig)
+    : this(metricsConfig, new ConsoleWrapper())
+  { }
 
   public async Task SubmitMetric(CoreMetric metric) =>
     await SubmitMetrics(new List<CoreMetric> {metric});
@@ -26,9 +35,9 @@ public class ConsoleMetricOutput : IMetricOutput
 
     foreach (var metric in metrics)
     {
-      Console.ForegroundColor = ConsoleColor.Green;
-      Console.WriteLine(ProcessMetric(metric));
-      Console.ResetColor();
+      _console.ForegroundColor = ConsoleColor.Green;
+      _console.WriteLine(ProcessMetric(metric));
+      _console.ResetColor();
     }
   }
 
