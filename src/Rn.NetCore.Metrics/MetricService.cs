@@ -98,7 +98,7 @@ public class MetricService : IMetricService
 
       // We are good to go
       _logger.LogInformation("Metric service running with {count} output(s)",
-        _outputs.Count);
+        enabledOutputs.Count);
 
       return enabledOutputs;
     }
