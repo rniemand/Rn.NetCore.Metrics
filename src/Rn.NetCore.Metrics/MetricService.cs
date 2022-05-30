@@ -18,7 +18,6 @@ public class MetricService : IMetricService
   private readonly RnMetricsConfig _config;
   private readonly List<IMetricOutput> _outputs;
 
-
   public MetricService(
     ILoggerAdapter<MetricService> logger,
     IDateTimeAbstraction dateTime,
@@ -108,6 +107,7 @@ public class MetricService : IMetricService
         ex.Message,
         ex.HumanStackTrace());
 
+      _config.Enabled = false;
       return new List<IMetricOutput>();
     }
   }
