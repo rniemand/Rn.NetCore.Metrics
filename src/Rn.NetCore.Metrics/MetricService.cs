@@ -39,7 +39,6 @@ public class MetricService : IMetricService
   }
 
 
-  // Interface methods
   public void SubmitMetric<TBuilder>(ICoreMetricBuilder<TBuilder> builder)
   {
     if (!_config.Enabled)
