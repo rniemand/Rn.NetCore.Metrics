@@ -38,7 +38,7 @@ public class ConsoleMetricOutput : IMetricOutput
       .Append(metric.UtcTimestamp.ToLocalTime().ToString("s"))
       .Append("] \"")
       .Append(metric.Measurement)
-      .Append("\"")
+      .Append('"')
       .Append(GenerateTagsString(metric))
       .Append(GenerateFieldsString(metric))
       .ToString();

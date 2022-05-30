@@ -1,7 +1,7 @@
 namespace Rn.NetCore.Metrics;
 
 // DOCS: docs\MetricPlaceholder.md
-public class MetricPlaceholder
+public static class MetricPlaceholder
 {
   public const string None = "(none)";
   public const string Unknown = "(unknown)";
