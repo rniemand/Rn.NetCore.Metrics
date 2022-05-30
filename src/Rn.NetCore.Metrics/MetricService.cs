@@ -18,7 +18,6 @@ public class MetricService : IMetricService
   private readonly RnMetricsConfig _config;
   private readonly List<IMetricOutput> _outputs;
 
-
   public MetricService(
     ILoggerAdapter<MetricService> logger,
     IDateTimeAbstraction dateTime,
@@ -40,7 +39,6 @@ public class MetricService : IMetricService
   }
 
 
-  // Interface methods
   public void SubmitMetric<TBuilder>(ICoreMetricBuilder<TBuilder> builder)
   {
     if (!_config.Enabled)
@@ -79,9 +77,7 @@ public class MetricService : IMetricService
 
     await SubmitMetricAsync(builder.Build());
   }
-
-
-  // Internal methods
+  
   private List<IMetricOutput> LoadMetricOutputs(IEnumerable<IMetricOutput> outputs)
   {
     try
@@ -108,6 +104,7 @@ public class MetricService : IMetricService
         ex.Message,
         ex.HumanStackTrace());
 
+      _config.Enabled = false;
       return new List<IMetricOutput>();
     }
   }

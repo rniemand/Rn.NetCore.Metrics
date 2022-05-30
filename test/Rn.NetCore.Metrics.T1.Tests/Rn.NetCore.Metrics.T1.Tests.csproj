@@ -4,6 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <IsPackable>false</IsPackable>
 	  <ProjectGuid>F17B416A-C254-448A-B717-167BCF290775</ProjectGuid>
+	  <Nullable>annotations</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
