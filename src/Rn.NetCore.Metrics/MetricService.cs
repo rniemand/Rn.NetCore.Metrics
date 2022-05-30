@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -83,21 +84,32 @@ public class MetricService : IMetricService
   // Internal methods
   private List<IMetricOutput> LoadMetricOutputs(IEnumerable<IMetricOutput> outputs)
   {
-    var enabledOutputs = outputs.Where(x => x.Enabled).ToList();
-
-    // No enabled outputs
-    if (enabledOutputs.Count == 0)
+    try
     {
-      _logger.LogWarning("No enabled outputs, disabling metric service");
-      _config.Enabled = false;
+      var enabledOutputs = outputs.Where(x => x.Enabled).ToList();
+
+      // No enabled outputs
+      if (enabledOutputs.Count == 0)
+      {
+        _logger.LogWarning("No enabled outputs, disabling metric service");
+        _config.Enabled = false;
+        return new List<IMetricOutput>();
+      }
+
+      // We are good to go
+      _logger.LogInformation("Metric service running with {count} output(s)",
+        _outputs.Count);
+
+      return enabledOutputs;
+    }
+    catch (Exception ex)
+    {
+      _logger.LogError(ex, "Error loading metric outputs: {message}. {stack}",
+        ex.Message,
+        ex.HumanStackTrace());
+
       return new List<IMetricOutput>();
     }
-
-    // We are good to go
-    _logger.LogInformation("Metric service running with {count} output(s)",
-      _outputs.Count);
-
-    return enabledOutputs;
   }
 
   private CoreMetric FinalizeMetric(CoreMetric coreMetric)
