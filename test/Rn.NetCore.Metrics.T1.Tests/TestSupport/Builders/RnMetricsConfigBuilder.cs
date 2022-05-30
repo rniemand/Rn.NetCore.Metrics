@@ -20,5 +20,29 @@ public class RnMetricsConfigBuilder
     return this;
   }
 
+  public RnMetricsConfigBuilder WithMetricOverride(string key, string value)
+  {
+    _config.Overrides[key] = value;
+    return this;
+  }
+
+  public RnMetricsConfigBuilder WithTemplate(string template)
+  {
+    _config.Template = template;
+    return this;
+  }
+
+  public RnMetricsConfigBuilder WithEnvironment(string environment)
+  {
+    _config.Environment = environment;
+    return this;
+  }
+
+  public RnMetricsConfigBuilder WithApplication(string application)
+  {
+    _config.Application = application;
+    return this;
+  }
+
   public RnMetricsConfig Build() => _config;
 }

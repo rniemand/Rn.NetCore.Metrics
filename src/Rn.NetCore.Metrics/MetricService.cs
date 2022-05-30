@@ -77,9 +77,7 @@ public class MetricService : IMetricService
 
     await SubmitMetricAsync(builder.Build());
   }
-
-
-  // Internal methods
+  
   private List<IMetricOutput> LoadMetricOutputs(IEnumerable<IMetricOutput> outputs)
   {
     try
