@@ -6,9 +6,9 @@ More to come...
 ```cs
 public class MetricService : IMetricService
 {
-  public void SubmitMetric<TBuilder>(ICoreMetricBuilder<TBuilder> builder) { }
+  public void Submit( /*...*/ ) { }
 
-  public void SubmitMetric(CoreMetric coreMetric) { }
+  public async Task SubmitAsync( /*...*/ ) { }
 
   // ...
 }

@@ -9,7 +9,7 @@ using Rn.NetCore.Metrics.T1.Tests.TestSupport.Builders;
 namespace Rn.NetCore.Metrics.T1.Tests.LibRoot.MetricServiceTests;
 
 [TestFixture]
-public class SubmitMetricTests
+public class SubmitTests
 {
   [Test]
   public void SubmitMetricBuilder_GivenMetricsDisabled_ShouldDoNothing()
@@ -28,7 +28,7 @@ public class SubmitMetricTests
       config: metricsConfig);
 
     // act
-    service.SubmitMetric(metricBuilder);
+    service.Submit(metricBuilder);
 
     // assert
     output.DidNotReceive().SubmitMetric(Arg.Any<CoreMetric>());
@@ -51,7 +51,7 @@ public class SubmitMetricTests
       config: metricsConfig);
 
     // act
-    service.SubmitMetric(coreMetric);
+    service.Submit(coreMetric);
 
     // assert
     output.DidNotReceive().SubmitMetric(Arg.Any<CoreMetric>());
@@ -74,7 +74,7 @@ public class SubmitMetricTests
       config: metricsConfig);
 
     // act
-    service.SubmitMetric(builder);
+    service.Submit(builder);
 
     // assert
     output.Received(1).SubmitMetric(Arg.Any<CoreMetric>());
@@ -97,7 +97,7 @@ public class SubmitMetricTests
       config: metricsConfig);
 
     // act
-    service.SubmitMetric(coreMetric);
+    service.Submit(coreMetric);
 
     // assert
     output.Received(1).SubmitMetric(coreMetric);
@@ -120,7 +120,7 @@ public class SubmitMetricTests
       config: metricsConfig);
 
     // act
-    await service.SubmitMetricAsync(metricBuilder);
+    await service.SubmitAsync(metricBuilder);
 
     // assert
     await output.DidNotReceive().SubmitMetric(Arg.Any<CoreMetric>());
@@ -143,7 +143,7 @@ public class SubmitMetricTests
       config: metricsConfig);
 
     // act
-    await service.SubmitMetricAsync(metricBuilder);
+    await service.SubmitAsync(metricBuilder);
 
     // assert
     await output.Received(1).SubmitMetric(Arg.Any<CoreMetric>());
@@ -166,7 +166,7 @@ public class SubmitMetricTests
       config: metricsConfig);
 
     // act
-    await service.SubmitMetricAsync(coreMetric);
+    await service.SubmitAsync(coreMetric);
 
     // assert
     await output.DidNotReceive().SubmitMetric(Arg.Any<CoreMetric>());
@@ -189,7 +189,7 @@ public class SubmitMetricTests
       config: metricsConfig);
 
     // act
-    await service.SubmitMetricAsync(coreMetric);
+    await service.SubmitAsync(coreMetric);
 
     // assert
     await output.Received(1).SubmitMetric(coreMetric);

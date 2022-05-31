@@ -32,7 +32,7 @@ public class FinalizeMetricTests
       outputs: new List<IMetricOutput> {output});
 
     // act
-    await metricService.SubmitMetricAsync(metric);
+    await metricService.SubmitAsync(metric);
 
     // assert
     await output.Received(1).SubmitMetric(Arg.Is<CoreMetric>(m =>
@@ -61,7 +61,7 @@ public class FinalizeMetricTests
       dateTime: dateTime);
 
     // act
-    await metricService.SubmitMetricAsync(metric);
+    await metricService.SubmitAsync(metric);
 
     // assert
     await output.Received(1).SubmitMetric(Arg.Is<CoreMetric>(m =>
@@ -91,7 +91,7 @@ public class FinalizeMetricTests
       dateTime: dateTime);
 
     // act
-    await metricService.SubmitMetricAsync(metric);
+    await metricService.SubmitAsync(metric);
 
     // assert
     await output.Received(1).SubmitMetric(Arg.Is<CoreMetric>(m =>
@@ -121,7 +121,7 @@ public class FinalizeMetricTests
       dateTime: dateTime);
 
     // act
-    await metricService.SubmitMetricAsync(metric);
+    await metricService.SubmitAsync(metric);
 
     // assert
     await output.Received(1).SubmitMetric(Arg.Is<CoreMetric>(m =>

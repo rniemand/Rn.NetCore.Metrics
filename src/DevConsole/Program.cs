@@ -27,7 +27,7 @@ internal class Program
     
     DIContainer.Get()
       .GetRequiredService<IMetricService>()
-      .SubmitMetric(metricBuilder);
+      .Submit(metricBuilder);
 
     Console.WriteLine();
     Console.WriteLine();
