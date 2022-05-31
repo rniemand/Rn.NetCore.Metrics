@@ -39,26 +39,26 @@ public class MetricService : IMetricService
   }
 
 
-  public void SubmitMetric<TBuilder>(ICoreMetricBuilder<TBuilder> builder)
+  public void Submit<TBuilder>(ICoreMetricBuilder<TBuilder> builder)
   {
     if (!_config.Enabled)
       return;
 
-    SubmitMetric(builder.Build());
+    Submit(builder.Build());
   }
 
-  public void SubmitMetric(CoreMetric coreMetric)
+  public void Submit(CoreMetric coreMetric)
   {
     if (!_config.Enabled)
       return;
 
-    SubmitMetricAsync(coreMetric)
+    SubmitAsync(coreMetric)
       .ConfigureAwait(false)
       .GetAwaiter()
       .GetResult();
   }
 
-  public async Task SubmitMetricAsync(CoreMetric coreMetric)
+  public async Task SubmitAsync(CoreMetric coreMetric)
   {
     if (!_config.Enabled)
       return;
@@ -70,12 +70,12 @@ public class MetricService : IMetricService
     }
   }
 
-  public async Task SubmitMetricAsync<TBuilder>(ICoreMetricBuilder<TBuilder> builder)
+  public async Task SubmitAsync<TBuilder>(ICoreMetricBuilder<TBuilder> builder)
   {
     if (!_config.Enabled)
       return;
 
-    await SubmitMetricAsync(builder.Build());
+    await SubmitAsync(builder.Build());
   }
   
   private List<IMetricOutput> LoadMetricOutputs(IEnumerable<IMetricOutput> outputs)
