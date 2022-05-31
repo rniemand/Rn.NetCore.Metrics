@@ -1,7 +1,9 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Rn.NetCore.Metrics.Abstractions;
 
+[ExcludeFromCodeCoverage]
 public class ConsoleWrapper : IConsole
 {
   public ConsoleColor ForegroundColor

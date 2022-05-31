@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 namespace Rn.NetCore.Metrics.Outputs;
 
 // DOCS: docs\outputs\CsvMetricOutput.md
+[ExcludeFromCodeCoverage]
 public class CsvMetricOutput : IMetricOutput
 {
   public bool Enabled { get; private set; }
@@ -11,6 +13,7 @@ public class CsvMetricOutput : IMetricOutput
     
   public CsvMetricOutput()
   {
+    // TODO: [CsvMetricOutput] (COMPLETE) Complete me
     Name = nameof(CsvMetricOutput);
     Enabled = false;
   }
