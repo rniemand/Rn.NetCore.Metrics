@@ -16,7 +16,9 @@ public sealed class CronMetricBuilder : CoreMetricBuilder<CronMetricBuilder>
 
   public CronMetricBuilder()
     : base("cron_job")
-  { }
+  {
+    SetSuccess(true);
+  }
 
   public CronMetricBuilder(string cronClass, string cronMethod)
     : this()

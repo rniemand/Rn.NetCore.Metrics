@@ -22,6 +22,11 @@ public class CronMetricBuilderTests
     // Assert
     Assert.That(metric.Tags["cron_class"], Is.EqualTo(string.Empty));
     Assert.That(metric.Tags["cron_method"], Is.EqualTo(string.Empty));
+    Assert.That(metric.Tags["category"], Is.EqualTo(string.Empty));
+    Assert.That(metric.Tags["sub_category"], Is.EqualTo(string.Empty));
+    Assert.That(metric.Tags["success"], Is.EqualTo("true"));
+    Assert.That(metric.Tags["has_ex"], Is.EqualTo("false"));
+    Assert.That(metric.Tags["ex_name"], Is.EqualTo(string.Empty));
     Assert.That(metric.Measurement, Is.EqualTo("cron_job"));
   }
 
@@ -34,6 +39,11 @@ public class CronMetricBuilderTests
     // Assert
     Assert.That(metric.Tags["cron_class"], Is.EqualTo(CronClass));
     Assert.That(metric.Tags["cron_method"], Is.EqualTo(CronMethod));
+    Assert.That(metric.Tags["category"], Is.EqualTo(string.Empty));
+    Assert.That(metric.Tags["sub_category"], Is.EqualTo(string.Empty));
+    Assert.That(metric.Tags["success"], Is.EqualTo("true"));
+    Assert.That(metric.Tags["has_ex"], Is.EqualTo("false"));
+    Assert.That(metric.Tags["ex_name"], Is.EqualTo(string.Empty));
     Assert.That(metric.Measurement, Is.EqualTo("cron_job"));
   }
 
