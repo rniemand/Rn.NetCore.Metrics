@@ -15,7 +15,9 @@ public sealed class ServiceMetricBuilder : CoreMetricBuilder<ServiceMetricBuilde
 
   public ServiceMetricBuilder()
     : base("service_call")
-  { }
+  {
+    SetSuccess(true);
+  }
 
   public ServiceMetricBuilder(string service, string method)
     : this()
