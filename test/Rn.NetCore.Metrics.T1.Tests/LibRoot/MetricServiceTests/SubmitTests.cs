@@ -9,7 +9,7 @@ using Rn.NetCore.Metrics.T1.Tests.TestSupport.Builders;
 namespace Rn.NetCore.Metrics.T1.Tests.LibRoot.MetricServiceTests;
 
 [TestFixture]
-public class SubmitMetricTests
+public class SubmitTests
 {
   [Test]
   public void SubmitMetricBuilder_GivenMetricsDisabled_ShouldDoNothing()
